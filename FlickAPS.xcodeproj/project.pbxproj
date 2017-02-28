@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7C70AFFECC05524A7A413DA /* libPods-FlickAPS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79733C9AA92CD9CE90C8E18A /* libPods-FlickAPS.a */; };
 		B856A4DE1E6359270070AB4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4DD1E6359270070AB4D /* main.m */; };
 		B856A4E11E6359270070AB4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4E01E6359270070AB4D /* AppDelegate.m */; };
-		B856A4E41E6359270070AB4D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4E31E6359270070AB4D /* ViewController.m */; };
+		B856A4E41E6359270070AB4D /* FAPSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4E31E6359270070AB4D /* FAPSBaseViewController.m */; };
 		B856A4E71E6359270070AB4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B856A4E51E6359270070AB4D /* Main.storyboard */; };
 		B856A4E91E6359270070AB4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B856A4E81E6359270070AB4D /* Assets.xcassets */; };
 		B856A4EC1E6359270070AB4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B856A4EA1E6359270070AB4D /* LaunchScreen.storyboard */; };
 		B856A4F71E6359270070AB4D /* FlickAPSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4F61E6359270070AB4D /* FlickAPSTests.m */; };
 		B856A5021E6359270070AB4D /* FlickAPSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A5011E6359270070AB4D /* FlickAPSUITests.m */; };
+		B8F654641E656FE10084C5B2 /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F654631E656FE10084C5B2 /* libAFNetworking.a */; };
+		B8F654671E6596B60084C5B2 /* FAPSSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F654661E6596B60084C5B2 /* FAPSSplashViewController.m */; };
+		B8F6546A1E6596DC0084C5B2 /* FAPSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F654691E6596DC0084C5B2 /* FAPSMainViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,12 +39,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		79733C9AA92CD9CE90C8E18A /* libPods-FlickAPS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlickAPS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		916FD8283FFF31848DFD6147 /* libPods-FlickAPSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlickAPSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8451CE41E64546F00B3AE99 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
+		B8451CE61E64B41A00B3AE99 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B8451CE81E64B42000B3AE99 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		B8451CEA1E64B5DD00B3AE99 /* libFlickrKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlickrKit.a; path = "Pods/../build/Debug-iphoneos/FlickrKit/libFlickrKit.a"; sourceTree = "<group>"; };
 		B856A4D91E6359260070AB4D /* FlickAPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickAPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B856A4DD1E6359270070AB4D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B856A4DF1E6359270070AB4D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B856A4E01E6359270070AB4D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B856A4E21E6359270070AB4D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B856A4E31E6359270070AB4D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		B856A4E21E6359270070AB4D /* FAPSBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAPSBaseViewController.h; sourceTree = "<group>"; };
+		B856A4E31E6359270070AB4D /* FAPSBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAPSBaseViewController.m; sourceTree = "<group>"; };
 		B856A4E61E6359270070AB4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B856A4E81E6359270070AB4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B856A4EB1E6359270070AB4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +61,16 @@
 		B856A4FD1E6359270070AB4D /* FlickAPSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlickAPSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B856A5011E6359270070AB4D /* FlickAPSUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickAPSUITests.m; sourceTree = "<group>"; };
 		B856A5031E6359270070AB4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B87401AF1E6447B8006617D2 /* libobjectiveflickr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libobjectiveflickr.a; path = "../../../Library/Developer/Xcode/DerivedData/FlickAPS-ckvkxhinxxdyovecuiwoqwronucn/Build/Products/Debug-iphonesimulator/objectiveflickr/libobjectiveflickr.a"; sourceTree = "<group>"; };
+		B8F654611E6561AC0084C5B2 /* libobjectiveflickr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libobjectiveflickr.a; path = "Pods/../build/Debug-iphoneos/objectiveflickr/libobjectiveflickr.a"; sourceTree = "<group>"; };
+		B8F654631E656FE10084C5B2 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
+		B8F654651E6596B60084C5B2 /* FAPSSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSSplashViewController.h; sourceTree = "<group>"; };
+		B8F654661E6596B60084C5B2 /* FAPSSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSSplashViewController.m; sourceTree = "<group>"; };
+		B8F654681E6596DC0084C5B2 /* FAPSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSMainViewController.h; sourceTree = "<group>"; };
+		B8F654691E6596DC0084C5B2 /* FAPSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSMainViewController.m; sourceTree = "<group>"; };
+		C4F0F9E49FBF97A041AE60C2 /* Pods-FlickAPS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickAPS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlickAPS/Pods-FlickAPS.debug.xcconfig"; sourceTree = "<group>"; };
+		C5816A5D9456E62CC54330AC /* libPods-FlickAPSUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlickAPSUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C98AFA42036009B0DF4A83CD /* Pods-FlickAPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickAPS.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlickAPS/Pods-FlickAPS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +78,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8F654641E656FE10084C5B2 /* libAFNetworking.a in Frameworks */,
+				A7C70AFFECC05524A7A413DA /* libPods-FlickAPS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F37847128A01C5C5DCF09CA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C4F0F9E49FBF97A041AE60C2 /* Pods-FlickAPS.debug.xcconfig */,
+				C98AFA42036009B0DF4A83CD /* Pods-FlickAPS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B856A4D01E6359260070AB4D = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +116,8 @@
 				B856A4F51E6359270070AB4D /* FlickAPSTests */,
 				B856A5001E6359270070AB4D /* FlickAPSUITests */,
 				B856A4DA1E6359260070AB4D /* Products */,
+				5F37847128A01C5C5DCF09CA /* Pods */,
+				C997D1FA6A4E7EC107718FCC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,8 +136,7 @@
 			children = (
 				B856A4DF1E6359270070AB4D /* AppDelegate.h */,
 				B856A4E01E6359270070AB4D /* AppDelegate.m */,
-				B856A4E21E6359270070AB4D /* ViewController.h */,
-				B856A4E31E6359270070AB4D /* ViewController.m */,
+				B8F6546B1E6596E70084C5B2 /* View Controllers */,
 				B856A4E51E6359270070AB4D /* Main.storyboard */,
 				B856A4E81E6359270070AB4D /* Assets.xcassets */,
 				B856A4EA1E6359270070AB4D /* LaunchScreen.storyboard */,
@@ -140,6 +172,36 @@
 			path = FlickAPSUITests;
 			sourceTree = "<group>";
 		};
+		B8F6546B1E6596E70084C5B2 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B856A4E21E6359270070AB4D /* FAPSBaseViewController.h */,
+				B856A4E31E6359270070AB4D /* FAPSBaseViewController.m */,
+				B8F654651E6596B60084C5B2 /* FAPSSplashViewController.h */,
+				B8F654661E6596B60084C5B2 /* FAPSSplashViewController.m */,
+				B8F654681E6596DC0084C5B2 /* FAPSMainViewController.h */,
+				B8F654691E6596DC0084C5B2 /* FAPSMainViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		C997D1FA6A4E7EC107718FCC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B8F654631E656FE10084C5B2 /* libAFNetworking.a */,
+				B8F654611E6561AC0084C5B2 /* libobjectiveflickr.a */,
+				B8451CEA1E64B5DD00B3AE99 /* libFlickrKit.a */,
+				B8451CE81E64B42000B3AE99 /* CFNetwork.framework */,
+				B8451CE61E64B41A00B3AE99 /* SystemConfiguration.framework */,
+				B8451CE41E64546F00B3AE99 /* libAFNetworking.a */,
+				B87401AF1E6447B8006617D2 /* libobjectiveflickr.a */,
+				79733C9AA92CD9CE90C8E18A /* libPods-FlickAPS.a */,
+				916FD8283FFF31848DFD6147 /* libPods-FlickAPSTests.a */,
+				C5816A5D9456E62CC54330AC /* libPods-FlickAPSUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,9 +209,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B856A5061E6359270070AB4D /* Build configuration list for PBXNativeTarget "FlickAPS" */;
 			buildPhases = (
+				57AB4A803DA31D601AA18661 /* [CP] Check Pods Manifest.lock */,
 				B856A4D51E6359260070AB4D /* Sources */,
 				B856A4D61E6359260070AB4D /* Frameworks */,
 				B856A4D71E6359260070AB4D /* Resources */,
+				ADCC976C2D3D03FEF5F1D00C /* [CP] Embed Pods Frameworks */,
+				77876CBE50507CC329F4C7F6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -268,12 +333,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		57AB4A803DA31D601AA18661 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		77876CBE50507CC329F4C7F6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlickAPS/Pods-FlickAPS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ADCC976C2D3D03FEF5F1D00C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlickAPS/Pods-FlickAPS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B856A4D51E6359260070AB4D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B856A4E41E6359270070AB4D /* ViewController.m in Sources */,
+				B8F6546A1E6596DC0084C5B2 /* FAPSMainViewController.m in Sources */,
+				B856A4E41E6359270070AB4D /* FAPSBaseViewController.m in Sources */,
+				B8F654671E6596B60084C5B2 /* FAPSSplashViewController.m in Sources */,
 				B856A4E11E6359270070AB4D /* AppDelegate.m in Sources */,
 				B856A4DE1E6359270070AB4D /* main.m in Sources */,
 			);
@@ -422,12 +537,23 @@
 		};
 		B856A5071E6359270070AB4D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4F0F9E49FBF97A041AE60C2 /* Pods-FlickAPS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+				);
 				INFOPLIST_FILE = FlickAPS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/AFNetworking",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FlickrKit",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/objectiveflickr",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.unnamed.FlickAPS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -435,12 +561,23 @@
 		};
 		B856A5081E6359270070AB4D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C98AFA42036009B0DF4A83CD /* Pods-FlickAPS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+				);
 				INFOPLIST_FILE = FlickAPS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/AFNetworking",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FlickrKit",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/objectiveflickr",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.unnamed.FlickAPS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -511,6 +648,7 @@
 				B856A5081E6359270070AB4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B856A5091E6359270070AB4D /* Build configuration list for PBXNativeTarget "FlickAPSTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +657,7 @@
 				B856A50B1E6359270070AB4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B856A50C1E6359270070AB4D /* Build configuration list for PBXNativeTarget "FlickAPSUITests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +666,7 @@
 				B856A50E1E6359270070AB4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
