@@ -7,9 +7,12 @@
 //
 
 #import "FAPSMainViewController.h"
+#import <AFNetworking.h>
+#import <Mantle.h>
+#import "FAPSPublicPhoto.h"
 
 @interface FAPSMainViewController ()
-
+@property (nonatomic, strong) NSMutableArray *publicPhotoArray;
 @end
 
 @implementation FAPSMainViewController
@@ -23,6 +26,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 /*
 #pragma mark - Navigation

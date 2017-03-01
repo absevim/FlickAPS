@@ -16,9 +16,11 @@
 		B856A4EC1E6359270070AB4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B856A4EA1E6359270070AB4D /* LaunchScreen.storyboard */; };
 		B856A4F71E6359270070AB4D /* FlickAPSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4F61E6359270070AB4D /* FlickAPSTests.m */; };
 		B856A5021E6359270070AB4D /* FlickAPSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A5011E6359270070AB4D /* FlickAPSUITests.m */; };
+		B8A76C6F1E677A6C009E0609 /* FAPSPhotoObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A76C6E1E677A6C009E0609 /* FAPSPhotoObject.m */; };
 		B8F654641E656FE10084C5B2 /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F654631E656FE10084C5B2 /* libAFNetworking.a */; };
 		B8F654671E6596B60084C5B2 /* FAPSSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F654661E6596B60084C5B2 /* FAPSSplashViewController.m */; };
 		B8F6546A1E6596DC0084C5B2 /* FAPSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F654691E6596DC0084C5B2 /* FAPSMainViewController.m */; };
+		B8F6546E1E65B0E80084C5B2 /* FAPSPublicPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F6546D1E65B0E80084C5B2 /* FAPSPublicPhoto.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,12 +64,16 @@
 		B856A5011E6359270070AB4D /* FlickAPSUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickAPSUITests.m; sourceTree = "<group>"; };
 		B856A5031E6359270070AB4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B87401AF1E6447B8006617D2 /* libobjectiveflickr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libobjectiveflickr.a; path = "../../../Library/Developer/Xcode/DerivedData/FlickAPS-ckvkxhinxxdyovecuiwoqwronucn/Build/Products/Debug-iphonesimulator/objectiveflickr/libobjectiveflickr.a"; sourceTree = "<group>"; };
+		B8A76C6D1E677A6C009E0609 /* FAPSPhotoObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSPhotoObject.h; sourceTree = "<group>"; };
+		B8A76C6E1E677A6C009E0609 /* FAPSPhotoObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSPhotoObject.m; sourceTree = "<group>"; };
 		B8F654611E6561AC0084C5B2 /* libobjectiveflickr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libobjectiveflickr.a; path = "Pods/../build/Debug-iphoneos/objectiveflickr/libobjectiveflickr.a"; sourceTree = "<group>"; };
 		B8F654631E656FE10084C5B2 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		B8F654651E6596B60084C5B2 /* FAPSSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSSplashViewController.h; sourceTree = "<group>"; };
 		B8F654661E6596B60084C5B2 /* FAPSSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSSplashViewController.m; sourceTree = "<group>"; };
 		B8F654681E6596DC0084C5B2 /* FAPSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSMainViewController.h; sourceTree = "<group>"; };
 		B8F654691E6596DC0084C5B2 /* FAPSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSMainViewController.m; sourceTree = "<group>"; };
+		B8F6546C1E65B0E80084C5B2 /* FAPSPublicPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSPublicPhoto.h; sourceTree = "<group>"; };
+		B8F6546D1E65B0E80084C5B2 /* FAPSPublicPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSPublicPhoto.m; sourceTree = "<group>"; };
 		C4F0F9E49FBF97A041AE60C2 /* Pods-FlickAPS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickAPS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlickAPS/Pods-FlickAPS.debug.xcconfig"; sourceTree = "<group>"; };
 		C5816A5D9456E62CC54330AC /* libPods-FlickAPSUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlickAPSUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98AFA42036009B0DF4A83CD /* Pods-FlickAPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickAPS.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlickAPS/Pods-FlickAPS.release.xcconfig"; sourceTree = "<group>"; };
@@ -136,6 +142,7 @@
 			children = (
 				B856A4DF1E6359270070AB4D /* AppDelegate.h */,
 				B856A4E01E6359270070AB4D /* AppDelegate.m */,
+				B8F654721E65B11D0084C5B2 /* Model */,
 				B8F6546B1E6596E70084C5B2 /* View Controllers */,
 				B856A4E51E6359270070AB4D /* Main.storyboard */,
 				B856A4E81E6359270070AB4D /* Assets.xcassets */,
@@ -183,6 +190,17 @@
 				B8F654691E6596DC0084C5B2 /* FAPSMainViewController.m */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		B8F654721E65B11D0084C5B2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B8F6546C1E65B0E80084C5B2 /* FAPSPublicPhoto.h */,
+				B8F6546D1E65B0E80084C5B2 /* FAPSPublicPhoto.m */,
+				B8A76C6D1E677A6C009E0609 /* FAPSPhotoObject.h */,
+				B8A76C6E1E677A6C009E0609 /* FAPSPhotoObject.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		C997D1FA6A4E7EC107718FCC /* Frameworks */ = {
@@ -388,9 +406,11 @@
 			files = (
 				B8F6546A1E6596DC0084C5B2 /* FAPSMainViewController.m in Sources */,
 				B856A4E41E6359270070AB4D /* FAPSBaseViewController.m in Sources */,
+				B8A76C6F1E677A6C009E0609 /* FAPSPhotoObject.m in Sources */,
 				B8F654671E6596B60084C5B2 /* FAPSSplashViewController.m in Sources */,
 				B856A4E11E6359270070AB4D /* AppDelegate.m in Sources */,
 				B856A4DE1E6359270070AB4D /* main.m in Sources */,
+				B8F6546E1E65B0E80084C5B2 /* FAPSPublicPhoto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
