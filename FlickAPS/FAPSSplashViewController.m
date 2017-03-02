@@ -11,11 +11,13 @@
 #import <Mantle.h>
 #import "FAPSPublicPhoto.h"
 #import "FAPSPhotoObject.h"
+#import "FAPSPhotoSizeObject.h"
 
 
 @interface FAPSSplashViewController ()
 @property (nonatomic,strong) NSMutableArray *publicPhotoArray;
 @property (nonatomic,strong) NSMutableArray *publicPhotoWithUserArray;
+@property (nonatomic,strong) NSMutableArray *photoSizeArray;
 
 @end
 
@@ -24,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.publicPhotoArray = [[NSMutableArray alloc]init];
-    self.publicPhotoWithUserArray = [[NSMutableArray alloc]init];
+    self.photoSizeArray = [[NSMutableArray alloc]init];
     [self getRecentPublicPhotos];
 
    
@@ -40,51 +42,62 @@
 - (void)getRecentPublicPhotos{
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:[self getFlickrApiUrl:0 withUserId:@""] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:[self getFlickrApiUrl:0 withParameter:@""] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"photos"];
         NSDictionary *publicPhotoDictionary = [responseDictionary objectForKey:@"photo"];
         NSError *error;
         
         for (NSDictionary *dictionary in publicPhotoDictionary) {
-            FAPSPublicPhoto *publicPhoto =  [MTLJSONAdapter modelOfClass:FAPSPublicPhoto.class fromJSONDictionary:dictionary error:&error];
+           FAPSPublicPhoto *publicPhoto =  [MTLJSONAdapter modelOfClass:FAPSPublicPhoto.class fromJSONDictionary:dictionary error:&error];
 
             [self.publicPhotoArray addObject:publicPhoto];
-            
+            [self getPublicPhotoFlickrUser:publicPhoto];
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self getPublicPhotoFlickrUser];
-            
-        });
-        [self hideSplash];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
     }];
 }
 
-- (void)getPublicPhotoFlickrUser{
-
-    for (FAPSPublicPhoto *publicPhoto in self.publicPhotoArray) {
+- (void)getPublicPhotoFlickrUser:(FAPSPublicPhoto *)publicPhoto{
+    
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        [manager GET:[self getFlickrApiUrl:1 withUserId:publicPhoto.photoOwner] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [manager GET:[self getFlickrApiUrl:1 withParameter:publicPhoto.photoOwner] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             NSDictionary *responseDictionary = [[(NSDictionary *)responseObject valueForKey:@"person"] objectForKey:@"username"];
             NSString *fullName = [responseDictionary valueForKey:@"_content"];
             
             FAPSPhotoObject *photo = [[FAPSPhotoObject alloc]init];
             photo.fullName = fullName;
             photo.publicPhoto = publicPhoto;
-            [self.publicPhotoWithUserArray addObject:photo];
+            [self getAllPhotoSizes:photo];
             
-            if (self.publicPhotoWithUserArray.count > 0) {
-                NSLog(@"Bezokko");
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"%@",error);
+        }];
+
+}
+
+- (void)getAllPhotoSizes:(FAPSPhotoObject *)photoObject{
+    
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        [manager GET:[self getFlickrApiUrl:2 withParameter:photoObject.publicPhoto.photoId] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"sizes"];
+            NSDictionary *responsePhotoSizeDictionary = [responseDictionary valueForKey:@"size"];
+            NSError *error;
+            
+            for (NSDictionary *dictionary in responsePhotoSizeDictionary) {
+                FAPSPhotoSizeObject *photoSizeObject =  [MTLJSONAdapter modelOfClass:FAPSPhotoSizeObject.class fromJSONDictionary:dictionary error:&error];
+                [photoObject.photoSizeArray addObject:photoSizeObject];
+               
+            }
+            [self.photoSizeArray addObject:photoObject];
+            
+            if (self.publicPhotoArray.count == self.photoSizeArray.count) {
+                [self hideSplash];
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"%@",error);
         }];
-    }
-
-
-    
 }
 
 - (void)hideSplash{

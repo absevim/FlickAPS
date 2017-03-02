@@ -13,7 +13,7 @@
 
 
 NSString *FLICKR_LINK = @"https://api.flickr.com/services/rest/?method=";
-NSString *FLICKR_API_KEY = @"&api_key=e1ff347654cd916bf712d231bf6d98f2";
+NSString *FLICKR_API_KEY = @"&api_key=e47df99961f0f684875506c1cd1e3ca1";
 NSString *FLICKR_FORMAT = @"&format=json&nojsoncallback=1";
 NSString *FLICKR_AUTH_TOKEN = @"&auth_token=72157677324780094-d1695453ff72d6e6";
 
@@ -30,16 +30,19 @@ NSString *FLICKR_AUTH_TOKEN = @"&auth_token=72157677324780094-d1695453ff72d6e6";
     
 }
 
-- (NSString *)getFlickrApiUrl:(NSInteger)tag withUserId:(NSString *)userId{
+- (NSString *)getFlickrApiUrl:(NSInteger)tag withParameter:(NSString *)parameter{
     NSString *apiUrl = @"";
     switch (tag) {
         case 0:
             apiUrl = [NSString stringWithFormat:@"%@flickr.photos.getRecent%@%@",FLICKR_LINK,FLICKR_API_KEY,FLICKR_FORMAT];
             break;
         case 1:
-            userId = [userId stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
-            apiUrl = [NSString stringWithFormat:@"%@flickr.people.getInfo%@&user_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,userId,FLICKR_FORMAT];
-            
+            parameter = [parameter stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
+            apiUrl = [NSString stringWithFormat:@"%@flickr.people.getInfo%@&user_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,parameter,FLICKR_FORMAT];
+            break;
+        case 2:
+            apiUrl = [NSString stringWithFormat:@"%@flickr.photos.getSizes%@&photo_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,parameter,FLICKR_FORMAT];
+            break;
         default:
             break;
     }

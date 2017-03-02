@@ -17,6 +17,7 @@
 		B856A4F71E6359270070AB4D /* FlickAPSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4F61E6359270070AB4D /* FlickAPSTests.m */; };
 		B856A5021E6359270070AB4D /* FlickAPSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A5011E6359270070AB4D /* FlickAPSUITests.m */; };
 		B8A76C6F1E677A6C009E0609 /* FAPSPhotoObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A76C6E1E677A6C009E0609 /* FAPSPhotoObject.m */; };
+		B8A76C721E683DAA009E0609 /* FAPSPhotoSizeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A76C711E683DAA009E0609 /* FAPSPhotoSizeObject.m */; };
 		B8F654641E656FE10084C5B2 /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F654631E656FE10084C5B2 /* libAFNetworking.a */; };
 		B8F654671E6596B60084C5B2 /* FAPSSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F654661E6596B60084C5B2 /* FAPSSplashViewController.m */; };
 		B8F6546A1E6596DC0084C5B2 /* FAPSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F654691E6596DC0084C5B2 /* FAPSMainViewController.m */; };
@@ -66,6 +67,8 @@
 		B87401AF1E6447B8006617D2 /* libobjectiveflickr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libobjectiveflickr.a; path = "../../../Library/Developer/Xcode/DerivedData/FlickAPS-ckvkxhinxxdyovecuiwoqwronucn/Build/Products/Debug-iphonesimulator/objectiveflickr/libobjectiveflickr.a"; sourceTree = "<group>"; };
 		B8A76C6D1E677A6C009E0609 /* FAPSPhotoObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSPhotoObject.h; sourceTree = "<group>"; };
 		B8A76C6E1E677A6C009E0609 /* FAPSPhotoObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSPhotoObject.m; sourceTree = "<group>"; };
+		B8A76C701E683DAA009E0609 /* FAPSPhotoSizeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSPhotoSizeObject.h; sourceTree = "<group>"; };
+		B8A76C711E683DAA009E0609 /* FAPSPhotoSizeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSPhotoSizeObject.m; sourceTree = "<group>"; };
 		B8F654611E6561AC0084C5B2 /* libobjectiveflickr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libobjectiveflickr.a; path = "Pods/../build/Debug-iphoneos/objectiveflickr/libobjectiveflickr.a"; sourceTree = "<group>"; };
 		B8F654631E656FE10084C5B2 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		B8F654651E6596B60084C5B2 /* FAPSSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSSplashViewController.h; sourceTree = "<group>"; };
@@ -197,6 +200,8 @@
 			children = (
 				B8F6546C1E65B0E80084C5B2 /* FAPSPublicPhoto.h */,
 				B8F6546D1E65B0E80084C5B2 /* FAPSPublicPhoto.m */,
+				B8A76C701E683DAA009E0609 /* FAPSPhotoSizeObject.h */,
+				B8A76C711E683DAA009E0609 /* FAPSPhotoSizeObject.m */,
 				B8A76C6D1E677A6C009E0609 /* FAPSPhotoObject.h */,
 				B8A76C6E1E677A6C009E0609 /* FAPSPhotoObject.m */,
 			);
@@ -410,6 +415,7 @@
 				B8F654671E6596B60084C5B2 /* FAPSSplashViewController.m in Sources */,
 				B856A4E11E6359270070AB4D /* AppDelegate.m in Sources */,
 				B856A4DE1E6359270070AB4D /* main.m in Sources */,
+				B8A76C721E683DAA009E0609 /* FAPSPhotoSizeObject.m in Sources */,
 				B8F6546E1E65B0E80084C5B2 /* FAPSPublicPhoto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

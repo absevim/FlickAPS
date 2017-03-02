@@ -11,7 +11,7 @@
 
 @interface FAPSBaseViewController : UIViewController
 
-- (NSString *)getFlickrApiUrl:(NSInteger)tag withUserId:(NSString *)userId;
+- (NSString *)getFlickrApiUrl:(NSInteger)tag withParameter:(NSString *)parameter;
 
 
 @end

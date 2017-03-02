@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSString *fullName;
 @property (nonatomic, strong) NSString *profilePhotoUrl;
 @property (nonatomic, strong) FAPSPublicPhoto *publicPhoto;
+@property (nonatomic, strong) NSMutableArray *photoSizeArray;
 
 + (FAPSPhotoObject *)sharedPhotoObject;
++ (FAPSPhotoObject *)savedPhotoObject:(FAPSPhotoObject *)photoObject;
 @end

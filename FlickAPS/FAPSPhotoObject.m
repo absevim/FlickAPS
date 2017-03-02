@@ -29,6 +29,7 @@ static FAPSPhotoObject *sharedPhotoObject = nil;
     _fullName = @"";
     _profilePhotoUrl = @"";
     _publicPhoto = nil;
+    _photoSizeArray = [NSMutableArray array];
     
     return self;
 }
