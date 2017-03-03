@@ -13,9 +13,11 @@
 
 @interface FAPSMainViewController ()
 @property (nonatomic, strong) NSMutableArray *publicPhotoArray;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @end
 
 @implementation FAPSMainViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

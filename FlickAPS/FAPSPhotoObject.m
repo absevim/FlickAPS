@@ -10,18 +10,6 @@
 
 @implementation FAPSPhotoObject
 
-static FAPSPhotoObject *sharedPhotoObject = nil;
-
-+ (FAPSPhotoObject *)sharedPhotoObject{
-    if (sharedPhotoObject == nil) sharedPhotoObject = [[super alloc] init];
-    return sharedPhotoObject;
-}
-
-+ (FAPSPhotoObject *)savedPhotoObject:(FAPSPhotoObject *)photoObject{
-    sharedPhotoObject = photoObject;
-    return sharedPhotoObject;
-}
-
 - (instancetype)init{
     self = [super init];
     if(!self) return nil;
@@ -29,6 +17,7 @@ static FAPSPhotoObject *sharedPhotoObject = nil;
     _fullName = @"";
     _profilePhotoUrl = @"";
     _publicPhoto = nil;
+    _flickrUser = nil;
     _photoSizeArray = [NSMutableArray array];
     
     return self;

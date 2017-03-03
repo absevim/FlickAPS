@@ -8,6 +8,6 @@
 
 #import "FAPSBaseViewController.h"
 
-@interface FAPSMainViewController : FAPSBaseViewController
+@interface FAPSMainViewController : FAPSBaseViewController<UICollectionViewDelegate>
 
 @end
