@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>PureLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Reachability.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,12 +37,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1E8327D5CBAF7488E0AF5E5998F9F23D</key>
+		<key>46E64BB412C2872524528F45EFA8959F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>8E2F85A9EA167EFA71B3DCB5DF170059</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9054CE1FC9052923FCEE4AF52DA50176</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,7 +62,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AB2996820F28A0F17E655599B670EF6B</key>
+		<key>EC700D38EB2217F2BF1A1152B3CEE782</key>
 		<dict>
 			<key>primary</key>
 			<true/>

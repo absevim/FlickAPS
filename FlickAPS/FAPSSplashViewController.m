@@ -15,7 +15,6 @@
 
 @interface FAPSSplashViewController ()
 @property (nonatomic,strong) NSMutableArray *publicPhotoArray;
-@property (nonatomic,strong) NSMutableArray *publicPhotoWithUserArray;
 @property (nonatomic,strong) NSMutableArray *photoSizeArray;
 
 @end
@@ -28,11 +27,10 @@
     self.publicPhotoArray = [[NSMutableArray alloc]init];
     self.photoSizeArray = [[NSMutableArray alloc]init];
     [self getRecentPublicPhotos];
-    
-    // [self performSelector:@selector(hideSplash) withObject:nil afterDelay:2.];
 }
 
 - (void)getRecentPublicPhotos{
+   
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:[self getFlickrApiUrl:0 withParameter:@""]
       parameters:nil progress:nil
@@ -77,7 +75,6 @@
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              NSLog(@"%@",error);
          }];
-    
 }
 
 - (void)getAllPhotoSizes:(FAPSPhotoObject *)photoObject{
@@ -99,7 +96,7 @@
              [self.photoSizeArray addObject:photoObject];
              
              if (self.publicPhotoArray.count == self.photoSizeArray.count) {
-                 
+                 [self savePhotoSizeObject:photoObject];
                  [self hideSplash];
              }
              
