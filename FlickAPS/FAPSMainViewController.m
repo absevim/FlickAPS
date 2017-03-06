@@ -9,11 +9,11 @@
 #import "FAPSMainViewController.h"
 #import <AFNetworking.h>
 #import <Mantle.h>
+#import <PureLayout.h>
 #import "FAPSPublicPhoto.h"
 
 @interface FAPSMainViewController ()
 @property (nonatomic, strong) NSMutableArray *publicPhotoArray;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @end
 
 @implementation FAPSMainViewController
@@ -24,10 +24,6 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 
 

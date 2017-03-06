@@ -10,7 +10,7 @@
 #import "FAPSPublicPhoto.h"
 #import "FAPSFlickrUser.h"
 
-@interface FAPSPhotoObject : NSObject
+@interface FAPSPhotoObject : NSObject<NSCoding>
 @property (nonatomic,strong) NSDictionary *dict;
 @property (nonatomic, strong) NSString *fullName;
 @property (nonatomic, strong) NSString *profilePhotoUrl;

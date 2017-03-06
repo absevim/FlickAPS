@@ -96,7 +96,10 @@
              [self.photoSizeArray addObject:photoObject];
              
              if (self.publicPhotoArray.count == self.photoSizeArray.count) {
-                 [self savePhotoSizeObject:photoObject];
+                 
+                 for (FAPSPhotoObject *photoObject in self.photoSizeArray) {
+                 //   [self savePhotoSizeObject:photoObject];
+                 }
                  [self hideSplash];
              }
              

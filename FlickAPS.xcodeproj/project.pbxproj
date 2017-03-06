@@ -121,6 +121,19 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B84A594D1E6DE99F0092E7F5 /* JSON Models */ = {
+			isa = PBXGroup;
+			children = (
+				B8A76C6D1E677A6C009E0609 /* FAPSPhotoObject.h */,
+				B8A76C6E1E677A6C009E0609 /* FAPSPhotoObject.m */,
+				B8A76C731E687149009E0609 /* FAPSFlickrUser.h */,
+				B8A76C741E687149009E0609 /* FAPSFlickrUser.m */,
+				B8A76C701E683DAA009E0609 /* FAPSPhotoSizeObject.h */,
+				B8A76C711E683DAA009E0609 /* FAPSPhotoSizeObject.m */,
+			);
+			name = "JSON Models";
+			sourceTree = "<group>";
+		};
 		B856A4D01E6359260070AB4D = {
 			isa = PBXGroup;
 			children = (
@@ -201,14 +214,9 @@
 		B8F654721E65B11D0084C5B2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B8A76C6D1E677A6C009E0609 /* FAPSPhotoObject.h */,
-				B8A76C6E1E677A6C009E0609 /* FAPSPhotoObject.m */,
 				B8F6546C1E65B0E80084C5B2 /* FAPSPublicPhoto.h */,
 				B8F6546D1E65B0E80084C5B2 /* FAPSPublicPhoto.m */,
-				B8A76C701E683DAA009E0609 /* FAPSPhotoSizeObject.h */,
-				B8A76C711E683DAA009E0609 /* FAPSPhotoSizeObject.m */,
-				B8A76C731E687149009E0609 /* FAPSFlickrUser.h */,
-				B8A76C741E687149009E0609 /* FAPSFlickrUser.m */,
+				B84A594D1E6DE99F0092E7F5 /* JSON Models */,
 			);
 			name = Model;
 			sourceTree = "<group>";

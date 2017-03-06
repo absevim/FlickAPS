@@ -23,4 +23,25 @@
     return self;
 }
 
+- (void)encodeWithCoder:(NSCoder *)aCoder{
+    [aCoder encodeObject:_fullName forKey:@"fullNameKey"];
+    [aCoder encodeObject:_profilePhotoUrl forKey:@"profilePhotoKey"];
+    [aCoder encodeObject:_publicPhoto forKey:@"publicPhotoKey"];
+    [aCoder encodeObject:_flickrUser forKey:@"flickrUserKey"];
+    [aCoder encodeObject:_photoSizeArray forKey:@"photoSizeArrayKey"];
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    self = [super init];
+    if(!self) return nil;
+    
+    _fullName = [aDecoder decodeObjectForKey:@"fullNameKey"];
+    _profilePhotoUrl = [aDecoder decodeObjectForKey:@"profilePhotoKey"];
+    _publicPhoto = [aDecoder decodeObjectForKey:@"publicPhotoKey"];
+    _flickrUser = [aDecoder decodeObjectForKey:@"flickrUserKey"];
+    _photoSizeArray = [aDecoder decodeObjectForKey:@"photoSizeArrayKey"];
+    
+    return self;
+}
+
 @end
