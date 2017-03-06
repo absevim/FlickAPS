@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		A7C70AFFECC05524A7A413DA /* libPods-FlickAPS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79733C9AA92CD9CE90C8E18A /* libPods-FlickAPS.a */; };
 		B84A59531E6E0BCF0092E7F5 /* FAPSCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B84A59521E6E0BCF0092E7F5 /* FAPSCollectionCell.m */; };
+		B84A59591E6E0F890092E7F5 /* libMantle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B84A59541E6E0F890092E7F5 /* libMantle.a */; };
+		B84A595A1E6E0F890092E7F5 /* libOvercoat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B84A59551E6E0F890092E7F5 /* libOvercoat.a */; };
+		B84A595B1E6E0F890092E7F5 /* libPureLayout.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B84A59561E6E0F890092E7F5 /* libPureLayout.a */; };
+		B84A595C1E6E0F890092E7F5 /* libReachability.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B84A59571E6E0F890092E7F5 /* libReachability.a */; };
+		B84A595D1E6E0F890092E7F5 /* libSDWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B84A59581E6E0F890092E7F5 /* libSDWebImage.a */; };
 		B856A4DE1E6359270070AB4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4DD1E6359270070AB4D /* main.m */; };
 		B856A4E11E6359270070AB4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4E01E6359270070AB4D /* AppDelegate.m */; };
 		B856A4E41E6359270070AB4D /* FAPSBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B856A4E31E6359270070AB4D /* FAPSBaseViewController.m */; };
@@ -52,6 +57,11 @@
 		B8451CEA1E64B5DD00B3AE99 /* libFlickrKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlickrKit.a; path = "Pods/../build/Debug-iphoneos/FlickrKit/libFlickrKit.a"; sourceTree = "<group>"; };
 		B84A59511E6E0BCF0092E7F5 /* FAPSCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSCollectionCell.h; sourceTree = "<group>"; };
 		B84A59521E6E0BCF0092E7F5 /* FAPSCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSCollectionCell.m; sourceTree = "<group>"; };
+		B84A59541E6E0F890092E7F5 /* libMantle.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMantle.a; path = "../../../Library/Developer/Xcode/DerivedData/FlickAPS-ckvkxhinxxdyovecuiwoqwronucn/Build/Products/Debug-iphonesimulator/Mantle/libMantle.a"; sourceTree = "<group>"; };
+		B84A59551E6E0F890092E7F5 /* libOvercoat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOvercoat.a; path = "../../../Library/Developer/Xcode/DerivedData/FlickAPS-ckvkxhinxxdyovecuiwoqwronucn/Build/Products/Debug-iphonesimulator/Overcoat/libOvercoat.a"; sourceTree = "<group>"; };
+		B84A59561E6E0F890092E7F5 /* libPureLayout.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPureLayout.a; path = "../../../Library/Developer/Xcode/DerivedData/FlickAPS-ckvkxhinxxdyovecuiwoqwronucn/Build/Products/Debug-iphonesimulator/PureLayout/libPureLayout.a"; sourceTree = "<group>"; };
+		B84A59571E6E0F890092E7F5 /* libReachability.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libReachability.a; path = "../../../Library/Developer/Xcode/DerivedData/FlickAPS-ckvkxhinxxdyovecuiwoqwronucn/Build/Products/Debug-iphonesimulator/Reachability/libReachability.a"; sourceTree = "<group>"; };
+		B84A59581E6E0F890092E7F5 /* libSDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDWebImage.a; path = "Pods/../build/Debug-iphoneos/SDWebImage/libSDWebImage.a"; sourceTree = "<group>"; };
 		B856A4D91E6359260070AB4D /* FlickAPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickAPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B856A4DD1E6359270070AB4D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B856A4DF1E6359270070AB4D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -93,6 +103,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B84A59591E6E0F890092E7F5 /* libMantle.a in Frameworks */,
+				B84A595A1E6E0F890092E7F5 /* libOvercoat.a in Frameworks */,
+				B84A595B1E6E0F890092E7F5 /* libPureLayout.a in Frameworks */,
+				B84A595C1E6E0F890092E7F5 /* libReachability.a in Frameworks */,
+				B84A595D1E6E0F890092E7F5 /* libSDWebImage.a in Frameworks */,
 				B8F654641E656FE10084C5B2 /* libAFNetworking.a in Frameworks */,
 				A7C70AFFECC05524A7A413DA /* libPods-FlickAPS.a in Frameworks */,
 			);
@@ -229,6 +244,11 @@
 		C997D1FA6A4E7EC107718FCC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B84A59541E6E0F890092E7F5 /* libMantle.a */,
+				B84A59551E6E0F890092E7F5 /* libOvercoat.a */,
+				B84A59561E6E0F890092E7F5 /* libPureLayout.a */,
+				B84A59571E6E0F890092E7F5 /* libReachability.a */,
+				B84A59581E6E0F890092E7F5 /* libSDWebImage.a */,
 				B8F654631E656FE10084C5B2 /* libAFNetworking.a */,
 				B8F654611E6561AC0084C5B2 /* libobjectiveflickr.a */,
 				B8451CEA1E64B5DD00B3AE99 /* libFlickrKit.a */,
@@ -599,6 +619,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/AFNetworking",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/FlickrKit",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/objectiveflickr",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SDWebImage",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.unnamed.FlickAPS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -623,6 +644,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/AFNetworking",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/FlickrKit",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/objectiveflickr",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SDWebImage",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.unnamed.FlickAPS;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -19,6 +19,8 @@
     _publicPhoto = nil;
     _flickrUser = nil;
     _photoSizeArray = [NSMutableArray array];
+    _profilePhotoData = [NSData data];
+    _originalPhoto = [NSData data];
     
     return self;
 }
@@ -29,6 +31,8 @@
     [aCoder encodeObject:_publicPhoto forKey:@"publicPhotoKey"];
     [aCoder encodeObject:_flickrUser forKey:@"flickrUserKey"];
     [aCoder encodeObject:_photoSizeArray forKey:@"photoSizeArrayKey"];
+    [aCoder encodeObject:_profilePhotoData forKey:@"profilePhotoData"];
+    [aCoder encodeObject:_originalPhoto forKey:@"originalPhotoData"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
@@ -40,6 +44,8 @@
     _publicPhoto = [aDecoder decodeObjectForKey:@"publicPhotoKey"];
     _flickrUser = [aDecoder decodeObjectForKey:@"flickrUserKey"];
     _photoSizeArray = [aDecoder decodeObjectForKey:@"photoSizeArrayKey"];
+    _profilePhotoData = [aDecoder decodeObjectForKey:@"profilePhotoData"];
+    _originalPhoto = [aDecoder decodeObjectForKey:@"originalPhotoData"];
     
     return self;
 }

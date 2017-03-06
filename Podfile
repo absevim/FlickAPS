@@ -6,6 +6,7 @@ target 'FlickAPS' do
   # use_frameworks!
  pod 'Reachability'
  pod 'PureLayout'
+ pod 'SDWebImage', '~>3.8'
  pod 'AFNetworking', '~> 3.0'
  pod 'Overcoat', '~> 4.0.0-beta.1'
 

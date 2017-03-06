@@ -10,6 +10,7 @@
 #import <AFNetworking.h>
 #import <Mantle.h>
 #import <Reachability.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "FAPSPublicPhoto.h"
 #import "FAPSPhotoObject.h"
 #import "FAPSPhotoSizeObject.h"
@@ -20,6 +21,7 @@ static NetworkStatus networkStatus;
 @interface FAPSSplashViewController ()
 @property (nonatomic,strong) NSMutableArray *publicPhotoArray;
 @property (nonatomic,strong) NSMutableArray *photoSizeArray;
+@property SDWebImageDownloader *downloader;
 
 @end
 
@@ -30,6 +32,7 @@ static NetworkStatus networkStatus;
     
     self.publicPhotoArray = [[NSMutableArray alloc]init];
     self.photoSizeArray = [[NSMutableArray alloc]init];
+    self.downloader = [SDWebImageDownloader sharedDownloader];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([self checkReachability]) {
         [userDefaults setObject:self.photoSizeArray forKey:@"photoArray"];
@@ -39,6 +42,8 @@ static NetworkStatus networkStatus;
         [self hideSplash];
     }
 }
+
+#pragma mark - FlickR request methods
 
 - (void)getRecentPublicPhotos{
    
@@ -81,7 +86,8 @@ static NetworkStatus networkStatus;
              photo.publicPhoto = publicPhoto;
              photo.profilePhotoUrl  = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/buddyicons/%@.jpg",flickrUser.iconfarm,flickrUser.iconserver,publicPhoto.photoOwner];
              
-             [self getAllPhotoSizes:photo];
+            // [self getAllPhotoSizes:photo];
+             [self getUserProfilePhoto:photo];
              
          }
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -104,11 +110,9 @@ static NetworkStatus networkStatus;
                  FAPSPhotoSizeObject *photoSizeObject =  [MTLJSONAdapter modelOfClass:FAPSPhotoSizeObject.class fromJSONDictionary:dictionary error:&error];
                  [photoObject.photoSizeArray addObject:photoSizeObject];
              }
-             
              [self.photoSizeArray addObject:photoObject];
              
              if (self.publicPhotoArray.count == self.photoSizeArray.count) {
-                 
                  for (FAPSPhotoObject *photoObject in self.photoSizeArray) {
                      [self savePhotoSizeObject:photoObject];
                  }
@@ -121,9 +125,40 @@ static NetworkStatus networkStatus;
          }];
 }
 
-- (void)hideSplash{
-    [self performSegueWithIdentifier:@"SplashToMainViewSegue" sender:self];
+#pragma mark - Image downloading methods
+
+- (void)getUserProfilePhoto:(FAPSPhotoObject *)photo{
+    [self.downloader downloadImageWithURL:[NSURL URLWithString:photo.profilePhotoUrl]
+                             options:0
+                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                // progression tracking code
+                            }
+                           completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                               if (data) {
+                                   photo.profilePhotoData = data;
+                               }else{
+                                   photo.profilePhotoData = UIImagePNGRepresentation([UIImage imageNamed:@"noUser.png"]);
+                               }
+                               
+                               [self getOrginalPhoto:photo];
+                              // [self getAllPhotoSizes:photo];
+                           }];
 }
+
+- (void)getOrginalPhoto:(FAPSPhotoObject *)photo{
+    NSString *photoUrl = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@.jpg",photo.publicPhoto.photoFarm,photo.publicPhoto.photoServer,photo.publicPhoto.photoId,photo.publicPhoto.photoSecret];
+    [self.downloader downloadImageWithURL:[NSURL URLWithString:photoUrl]
+                             options:0
+                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                // progression tracking code
+                            }
+                           completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                               photo.originalPhoto = data;
+                               [self getAllPhotoSizes:photo];
+                           }];
+}
+
+#pragma mark - NSUserDefaults method
 
 - (void)savePhotoSizeObject:(FAPSPhotoObject *)photoObject{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -145,6 +180,14 @@ static NetworkStatus networkStatus;
     [userDefaults synchronize];
 }
 
+#pragma mark -
+
+- (void)hideSplash{
+    [self performSegueWithIdentifier:@"SplashToMainViewSegue" sender:self];
+}
+
+#pragma mark - Reachability Method
+
 - (BOOL)checkReachability{
     networkNotifier = [Reachability reachabilityForInternetConnection];
     [networkNotifier startNotifier];
@@ -158,7 +201,6 @@ static NetworkStatus networkStatus;
         isConnected = NO;
     }
     return isConnected;
-    
 }
 
 @end

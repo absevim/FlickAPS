@@ -23,12 +23,16 @@ PODS:
     - Mantle (~> 2.0)
   - PureLayout (3.0.2)
   - Reachability (3.2)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - Overcoat (~> 4.0.0-beta.1)
   - PureLayout
   - Reachability
+  - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -36,7 +40,8 @@ SPEC CHECKSUMS:
   Overcoat: 2ddaa6d66edebc375f3e24a37974631d5aff7ebe
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: 46ee320cf94c6b1466aee2fc22280a4b92e55cdd
+PODFILE CHECKSUM: 99185937f8c68427c266f612baa59bec2b27e39a
 
 COCOAPODS: 1.2.0
