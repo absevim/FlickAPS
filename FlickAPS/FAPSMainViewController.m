@@ -10,10 +10,13 @@
 #import <AFNetworking.h>
 #import <Mantle.h>
 #import <PureLayout.h>
-#import "FAPSPublicPhoto.h"
+#import "FAPSPhotoObject.h"
+#import "FAPSCollectionCell.h"
 
 @interface FAPSMainViewController ()
 @property (nonatomic, strong) NSMutableArray *publicPhotoArray;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property NSUserDefaults *userDefaults;
 @end
 
 @implementation FAPSMainViewController
@@ -22,19 +25,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.collectionView.delegate = self;
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *photoArrayFromUserDefaults = [self.userDefaults objectForKey:@"photoArray"];
+    self.publicPhotoArray = [[NSMutableArray alloc] init];
+    for (NSData *photoData in photoArrayFromUserDefaults) {
+        FAPSPhotoObject *photoObject = (FAPSPhotoObject *) [NSKeyedUnarchiver unarchiveObjectWithData:photoData];
+        [self.publicPhotoArray addObject:photoObject];
+    }
+    
+    [self.collectionView reloadData];
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return self.publicPhotoArray.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    FAPSCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
+    FAPSPhotoObject *photoObject = (FAPSPhotoObject *) self.publicPhotoArray[indexPath.row];
+    
+    cell.username.text = photoObject.fullName;
+    // return the cell
+    return cell;
+    
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
 
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
 }
-*/
 
 @end

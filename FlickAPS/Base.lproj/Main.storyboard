@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -55,19 +57,64 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xjz-sK-Mtd">
-                                                    <size key="itemSize" width="50" height="50"/>
+                                                    <size key="itemSize" width="375" height="375"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="7SC-6A-jC4">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="flickrCell" id="7SC-6A-jC4" customClass="FAPSCollectionCell">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
                                                             <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a0P-iH-T09">
+                                                                    <rect key="frame" x="18" y="23" width="30" height="30"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="30" id="M6b-Bj-V2X"/>
+                                                                        <constraint firstAttribute="height" constant="30" id="RjD-JW-9c3"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t4A-N5-RPE">
+                                                                    <rect key="frame" x="58" y="27.5" width="42" height="21"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9D-hi-TH9">
+                                                                    <rect key="frame" x="0.5" y="58.5" width="375" height="319"/>
+                                                                    <subviews>
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yed-d7-h7b">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="319"/>
+                                                                        </button>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <constraints>
+                                                                        <constraint firstItem="yed-d7-h7b" firstAttribute="top" secondItem="R9D-hi-TH9" secondAttribute="top" id="3hz-NE-7St"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="yed-d7-h7b" secondAttribute="bottom" id="5BI-mk-lyU"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="yed-d7-h7b" secondAttribute="trailing" id="Uqx-50-RPA"/>
+                                                                        <constraint firstItem="yed-d7-h7b" firstAttribute="leading" secondItem="R9D-hi-TH9" secondAttribute="leading" id="wfj-lX-h2R"/>
+                                                                    </constraints>
+                                                                </view>
+                                                            </subviews>
                                                         </view>
+                                                        <constraints>
+                                                            <constraint firstItem="R9D-hi-TH9" firstAttribute="width" secondItem="7SC-6A-jC4" secondAttribute="width" id="4Kp-XI-DVW"/>
+                                                            <constraint firstItem="t4A-N5-RPE" firstAttribute="leading" secondItem="a0P-iH-T09" secondAttribute="trailing" constant="10" id="Adw-b6-Iqd"/>
+                                                            <constraint firstItem="t4A-N5-RPE" firstAttribute="centerY" secondItem="a0P-iH-T09" secondAttribute="centerY" id="Qb2-z4-foN"/>
+                                                            <constraint firstItem="R9D-hi-TH9" firstAttribute="height" secondItem="7SC-6A-jC4" secondAttribute="height" multiplier="0.85" id="ZJR-Cy-hGx"/>
+                                                            <constraint firstItem="R9D-hi-TH9" firstAttribute="top" secondItem="t4A-N5-RPE" secondAttribute="bottom" constant="10" id="fi7-hv-a6a"/>
+                                                            <constraint firstItem="R9D-hi-TH9" firstAttribute="centerX" secondItem="7SC-6A-jC4" secondAttribute="centerX" id="nfU-RU-ISH"/>
+                                                            <constraint firstItem="a0P-iH-T09" firstAttribute="leading" secondItem="7SC-6A-jC4" secondAttribute="leadingMargin" constant="10" id="o8O-k2-2mE"/>
+                                                            <constraint firstItem="a0P-iH-T09" firstAttribute="top" secondItem="7SC-6A-jC4" secondAttribute="topMargin" constant="15" id="pct-r9-0dm"/>
+                                                        </constraints>
+                                                        <connections>
+                                                            <outlet property="photoButton" destination="yed-d7-h7b" id="82h-EA-umK"/>
+                                                            <outlet property="userPhoto" destination="a0P-iH-T09" id="0jo-zr-0lb"/>
+                                                            <outlet property="username" destination="t4A-N5-RPE" id="2DU-DR-ZZc"/>
+                                                        </connections>
                                                     </collectionViewCell>
                                                 </cells>
                                                 <connections>
@@ -105,10 +152,13 @@
                             <constraint firstItem="Z6R-GI-knh" firstAttribute="width" secondItem="r8Q-8e-qhw" secondAttribute="width" id="wpa-jH-Xw5"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="kNe-kd-DJS" id="sP2-fV-Obh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7v-qj-2Au" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="915" y="133"/>
+            <point key="canvasLocation" x="914.39999999999998" y="132.68365817091455"/>
         </scene>
     </scenes>
 </document>

@@ -9,9 +9,13 @@
 #import "FAPSSplashViewController.h"
 #import <AFNetworking.h>
 #import <Mantle.h>
+#import <Reachability.h>
 #import "FAPSPublicPhoto.h"
 #import "FAPSPhotoObject.h"
 #import "FAPSPhotoSizeObject.h"
+
+static Reachability *networkNotifier;
+static NetworkStatus networkStatus;
 
 @interface FAPSSplashViewController ()
 @property (nonatomic,strong) NSMutableArray *publicPhotoArray;
@@ -26,7 +30,14 @@
     
     self.publicPhotoArray = [[NSMutableArray alloc]init];
     self.photoSizeArray = [[NSMutableArray alloc]init];
-    [self getRecentPublicPhotos];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([self checkReachability]) {
+        [userDefaults setObject:self.photoSizeArray forKey:@"photoArray"];
+        [userDefaults synchronize];
+        [self getRecentPublicPhotos];
+    }else{
+        [self hideSplash];
+    }
 }
 
 - (void)getRecentPublicPhotos{
@@ -68,6 +79,7 @@
              photo.fullName = fullName;
              photo.flickrUser = flickrUser;
              photo.publicPhoto = publicPhoto;
+             photo.profilePhotoUrl  = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/buddyicons/%@.jpg",flickrUser.iconfarm,flickrUser.iconserver,publicPhoto.photoOwner];
              
              [self getAllPhotoSizes:photo];
              
@@ -98,7 +110,7 @@
              if (self.publicPhotoArray.count == self.photoSizeArray.count) {
                  
                  for (FAPSPhotoObject *photoObject in self.photoSizeArray) {
-                 //   [self savePhotoSizeObject:photoObject];
+                     [self savePhotoSizeObject:photoObject];
                  }
                  [self hideSplash];
              }
@@ -131,6 +143,22 @@
     [photoArray addObject:savedData];
     [userDefaults setObject:photoArray forKey:@"photoArray"];
     [userDefaults synchronize];
+}
+
+- (BOOL)checkReachability{
+    networkNotifier = [Reachability reachabilityForInternetConnection];
+    [networkNotifier startNotifier];
+    
+    NetworkStatus status = [networkNotifier currentReachabilityStatus];
+    networkStatus = status;
+    BOOL isConnected;
+    if (networkStatus == ReachableViaWiFi || networkStatus == ReachableViaWWAN){
+        isConnected = YES;
+    }else {
+        isConnected = NO;
+    }
+    return isConnected;
+    
 }
 
 @end
