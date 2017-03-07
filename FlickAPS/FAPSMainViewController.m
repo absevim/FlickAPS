@@ -11,35 +11,41 @@
 #import <Mantle.h>
 #import <PureLayout.h>
 #import "FAPSPhotoObject.h"
+#import "FAPSTagsObject.h"
 #import "FAPSHotTagObject.h"
 #import "FAPSCollectionCell.h"
 
 @interface FAPSMainViewController ()
-@property (nonatomic, strong) NSMutableArray *publicPhotoArray;
-@property (nonatomic, strong) NSMutableArray *hotTagsArray;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+@property (strong, nonatomic) NSMutableArray *publicPhotoArray;
+@property (strong, nonatomic) NSMutableArray *filteredPublicPhotoArray;
+@property (strong, nonatomic) NSMutableArray *hotTagsArray;
 @property (strong, nonatomic) UIView *fullScreenView;
+@property (strong, nonatomic) UITapGestureRecognizer *tap;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UITapGestureRecognizer *tap;
 @property NSUserDefaults *userDefaults;
+@property BOOL isSearching;
 @end
 
 @implementation FAPSMainViewController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.collectionView.delegate = self;
+    self.filteredPublicPhotoArray = [[NSMutableArray alloc]init];
     self.searchBar.delegate = self;
     self.searchView.hidden = YES;
+    self.isSearching = NO;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.tap = [[UITapGestureRecognizer alloc]
                 initWithTarget:self
                 action:@selector(dismissKeyboard)];
+    UITextField *searchBarTextField = [self.searchBar valueForKey:@"_searchField"];
+    searchBarTextField.clearButtonMode = UITextFieldViewModeNever;
     [self getHotTags];
-
 }
 
 - (void)getHotTags{
@@ -65,18 +71,30 @@
 #pragma mark - CollectionView Methods
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.publicPhotoArray.count;
+    NSInteger count;
+    if (self.isSearching) {
+        count = self.filteredPublicPhotoArray.count;
+    } else {
+        count = self.publicPhotoArray.count;
+    }
+    return count ;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FAPSCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
     
-    FAPSPhotoObject *photoObject = (FAPSPhotoObject *) self.publicPhotoArray[indexPath.row];
+    FAPSPhotoObject *photoObject;
+    if (self.isSearching){
+        photoObject = (FAPSPhotoObject *)self.filteredPublicPhotoArray[indexPath.row];
+    }else{
+        photoObject = (FAPSPhotoObject *)self.publicPhotoArray[indexPath.row];
+    }
     cell.username.text = photoObject.fullName;
     cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
     cell.userPhoto.clipsToBounds = YES;
     cell.userPhoto.image = [UIImage imageWithData:photoObject.profilePhotoData];
     cell.originalPhoto.image = [UIImage imageWithData:photoObject.originalPhoto];
+    self.isSearching = NO;
     return cell;
 }
 
@@ -125,41 +143,47 @@
 #pragma mark - Search Bar Methods
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-
+    searchBar.text = @"";
+    [searchBar resignFirstResponder];
+    self.isSearching = NO;
+    [self.collectionView reloadData];
+    [self dismissKeyboard];
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     self.searchView.hidden = NO;
+    self.searchBar.showsCancelButton = YES;
     return YES;
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-
+    NSString *searchString = searchBar.text;
+    [self searchWithTag:searchString];
+    [self searchWithUserName:searchString];
+    self.isSearching = YES;
+    [self.collectionView reloadData];
+    [self dismissKeyboard];
   
 }
 
--(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
     self.searchView.hidden = YES;
 }
--(BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
 
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     return YES;
-    
 }
 
 #pragma mark - Tableview Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.hotTagsArray.count;
-    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"hotTagCell"];
@@ -170,11 +194,39 @@
     FAPSHotTagObject *hotTagObject = (FAPSHotTagObject *)self.hotTagsArray[indexPath.row];
     cell.textLabel.text = hotTagObject.content;
     return cell;
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    FAPSHotTagObject *hotTag = (FAPSHotTagObject *)self.hotTagsArray[indexPath.row];
+    [self searchWithTag:hotTag.content];
+    self.isSearching = YES;
+    [self.collectionView reloadData];
+    [self dismissKeyboard];
+}
 
+- (void)searchContent:(NSString *)content withFilterContent:(NSString *)filterContent withFilteredPhoto:(FAPSPhotoObject *)filteredPhoto{
+    NSComparisonResult result1 = [content compare:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:[content rangeOfString:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)]];
+    if (result1 == NSOrderedSame){
+        [self.filteredPublicPhotoArray addObject:filteredPhoto];
+    }
+    
+}
+
+- (void)searchWithTag:(NSString *)hotTagContent{
+    [self.filteredPublicPhotoArray removeAllObjects];
+    for (FAPSPhotoObject *filteredPhoto in self.publicPhotoArray) {
+        for(FAPSTagsObject *tagObject in filteredPhoto.tagsArray){
+            if (tagObject != nil) {
+                [self searchContent:tagObject.content withFilterContent:hotTagContent withFilteredPhoto:filteredPhoto];
+            }
+        }
+    }
+}
+
+- (void)searchWithUserName:(NSString *)userNameContent{
+    for (FAPSPhotoObject *filteredPhoto in self.publicPhotoArray) {
+        [self searchContent:filteredPhoto.fullName withFilterContent:userNameContent withFilteredPhoto:filteredPhoto];
+    }
     
 }
 
@@ -210,6 +262,7 @@
 - (void) dismissKeyboard
 {
     self.searchView.hidden = YES;
+    self.searchBar.showsCancelButton = NO;
     [self.view removeGestureRecognizer:self.tap];
     [self.searchBar resignFirstResponder];
 }
