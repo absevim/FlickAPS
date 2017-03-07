@@ -30,20 +30,21 @@ static NetworkStatus networkStatus;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.publicPhotoArray = [[NSMutableArray alloc]init];
-    self.photoSizeArray = [[NSMutableArray alloc]init];
-    self.manager = [AFHTTPSessionManager manager];
-    self.downloader = [SDWebImageDownloader sharedDownloader];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    // If no internet connection, will show the last requested popular photos.
     if ([self checkReachability]) {
+        self.publicPhotoArray = [[NSMutableArray alloc]init];
+        self.photoSizeArray = [[NSMutableArray alloc]init];
+        self.manager = [AFHTTPSessionManager manager];
+        self.downloader = [SDWebImageDownloader sharedDownloader];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        // If no internet connection, will show the last requested popular photos.
         [userDefaults setObject:nil forKey:@"photoArray"];
         [userDefaults setObject:nil forKey:@"hotTagArray"];
         [userDefaults synchronize];
-        [self getHotTags];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self getHotTags];
+        });
     }else{
-        [self hideSplash];
+        [self performSelector:@selector(hideSplash) withObject:nil afterDelay:2.];
     }
 }
 

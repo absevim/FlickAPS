@@ -20,6 +20,7 @@
 @property (strong, nonatomic) NSMutableArray *publicPhotoArray;
 @property (strong, nonatomic) NSMutableArray *filteredPublicPhotoArray;
 @property (strong, nonatomic) NSMutableArray *hotTagsArray;
+@property (strong, nonatomic) NSMutableArray *filteredHotTagsArray;
 @property (strong, nonatomic) UIView *fullScreenView;
 @property (strong, nonatomic) UITapGestureRecognizer *tap;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -28,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property NSUserDefaults *userDefaults;
 @property BOOL isSearching;
+@property BOOL isHotTagSearching;
 @end
 
 @implementation FAPSMainViewController
@@ -36,9 +38,11 @@
     [super viewDidLoad];
     self.collectionView.delegate = self;
     self.filteredPublicPhotoArray = [[NSMutableArray alloc]init];
+    self.filteredHotTagsArray = [[NSMutableArray alloc]init];
     self.searchBar.delegate = self;
     self.searchView.hidden = YES;
     self.isSearching = NO;
+    self.isHotTagSearching = NO;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.tap = [[UITapGestureRecognizer alloc]
                 initWithTarget:self
@@ -146,7 +150,11 @@
     searchBar.text = @"";
     [searchBar resignFirstResponder];
     self.isSearching = NO;
+    self.isHotTagSearching = NO;
+    [self.filteredPublicPhotoArray removeAllObjects];
+    [self.filteredHotTagsArray removeAllObjects];
     [self.collectionView reloadData];
+    [self.tableView reloadData];
     [self dismissKeyboard];
 }
 
@@ -162,6 +170,7 @@
     [self searchWithTag:searchString];
     [self searchWithUserName:searchString];
     self.isSearching = YES;
+    self.isHotTagSearching = YES;
     [self.collectionView reloadData];
     [self dismissKeyboard];
   
@@ -172,13 +181,28 @@
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    for (FAPSHotTagObject *hotTag in self.hotTagsArray) {
+        NSRange rangeValue = [hotTag.content rangeOfString:text options:(NSCaseInsensitiveSearch|NSDiacriticInsensitivePredicateOption)];
+        if (rangeValue.length>0) {
+            [self.filteredHotTagsArray addObject:hotTag];
+            self.isHotTagSearching = YES;
+            [self.tableView reloadData];
+        }
+    }
+
     return YES;
 }
 
 #pragma mark - Tableview Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.hotTagsArray.count;
+    NSInteger hotTagCount;
+    if (self.isHotTagSearching == YES) {
+        hotTagCount = self.filteredHotTagsArray.count;
+    }else{
+        hotTagCount = self.hotTagsArray.count;
+    }
+    return hotTagCount;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -191,13 +215,25 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dataCell"];
     }
-    FAPSHotTagObject *hotTagObject = (FAPSHotTagObject *)self.hotTagsArray[indexPath.row];
+    FAPSHotTagObject *hotTagObject;
+    if (self.isHotTagSearching == YES) {
+        hotTagObject = (FAPSHotTagObject *)self.filteredHotTagsArray[indexPath.row];
+    }else{
+        hotTagObject = (FAPSHotTagObject *)self.hotTagsArray[indexPath.row];
+    }
     cell.textLabel.text = hotTagObject.content;
     return cell;
 }
 
+#pragma mark - Search Methods
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    FAPSHotTagObject *hotTag = (FAPSHotTagObject *)self.hotTagsArray[indexPath.row];
+    FAPSHotTagObject *hotTag;
+    if (self.isHotTagSearching == YES) {
+        hotTag = (FAPSHotTagObject *)self.filteredHotTagsArray[indexPath.row];
+    }else{
+        hotTag = (FAPSHotTagObject *)self.hotTagsArray[indexPath.row];
+    }
     [self searchWithTag:hotTag.content];
     self.isSearching = YES;
     [self.collectionView reloadData];
@@ -205,11 +241,10 @@
 }
 
 - (void)searchContent:(NSString *)content withFilterContent:(NSString *)filterContent withFilteredPhoto:(FAPSPhotoObject *)filteredPhoto{
-    NSComparisonResult result1 = [content compare:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:[content rangeOfString:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)]];
-    if (result1 == NSOrderedSame){
+    NSComparisonResult result = [content compare:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:[content rangeOfString:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)]];
+    if (result == NSOrderedSame){
         [self.filteredPublicPhotoArray addObject:filteredPhoto];
     }
-    
 }
 
 - (void)searchWithTag:(NSString *)hotTagContent{

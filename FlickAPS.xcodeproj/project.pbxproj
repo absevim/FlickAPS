@@ -60,6 +60,7 @@
 		B80C5DBC1E6EDE4B00210750 /* FAPSTagsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSTagsObject.m; sourceTree = "<group>"; };
 		B80C5DBE1E6EE37C00210750 /* FAPSHotTagObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSHotTagObject.h; sourceTree = "<group>"; };
 		B80C5DBF1E6EE37C00210750 /* FAPSHotTagObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSHotTagObject.m; sourceTree = "<group>"; };
+		B80C5DC11E6F6C8800210750 /* libProgressHUD.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libProgressHUD.a; path = "Pods/../build/Debug-iphoneos/ProgressHUD/libProgressHUD.a"; sourceTree = "<group>"; };
 		B8451CE41E64546F00B3AE99 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		B8451CE61E64B41A00B3AE99 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B8451CE81E64B42000B3AE99 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -253,6 +254,7 @@
 		C997D1FA6A4E7EC107718FCC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B80C5DC11E6F6C8800210750 /* libProgressHUD.a */,
 				B80C5DB71E6EACE000210750 /* libASBPlayerScrubbing.a */,
 				B80C5DB81E6EACE000210750 /* libASMediaFocusManager.a */,
 				B80C5DB31E6EA34A00210750 /* libFLAnimatedImage.a */,
@@ -627,6 +629,7 @@
 					"\"${PODS_ROOT}/Headers/Public\"",
 				);
 				INFOPLIST_FILE = FlickAPS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -638,9 +641,11 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/NYTPhotoViewer",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/ASBPlayerScrubbing",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/ASMediaFocusManager",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ProgressHUD",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.unnamed.FlickAPS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -656,6 +661,7 @@
 					"\"${PODS_ROOT}/Headers/Public\"",
 				);
 				INFOPLIST_FILE = FlickAPS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -667,9 +673,11 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/NYTPhotoViewer",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/ASBPlayerScrubbing",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/ASMediaFocusManager",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ProgressHUD",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.unnamed.FlickAPS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
