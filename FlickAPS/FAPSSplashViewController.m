@@ -22,7 +22,7 @@ static NetworkStatus networkStatus;
 @property (nonatomic,strong) NSMutableArray *publicPhotoArray;
 @property (nonatomic,strong) NSMutableArray *photoSizeArray;
 @property SDWebImageDownloader *downloader;
-
+@property AFHTTPSessionManager *manager;
 @end
 
 @implementation FAPSSplashViewController
@@ -32,8 +32,10 @@ static NetworkStatus networkStatus;
     
     self.publicPhotoArray = [[NSMutableArray alloc]init];
     self.photoSizeArray = [[NSMutableArray alloc]init];
+    self.manager = [AFHTTPSessionManager manager];
     self.downloader = [SDWebImageDownloader sharedDownloader];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    // If no internet connection, will show the last requested popular photos.
     if ([self checkReachability]) {
         [userDefaults setObject:self.photoSizeArray forKey:@"photoArray"];
         [userDefaults synchronize];
@@ -46,11 +48,10 @@ static NetworkStatus networkStatus;
 #pragma mark - FlickR request methods
 
 - (void)getRecentPublicPhotos{
-   
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:[self getFlickrApiUrl:0 withParameter:@""]
-      parameters:nil progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [self.manager GET:[self getFlickrApiUrl:0 withParameter:@""]
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"photos"];
              NSDictionary *publicPhotoDictionary = [responseDictionary objectForKey:@"photo"];
              NSError *error;
@@ -68,12 +69,10 @@ static NetworkStatus networkStatus;
 }
 
 - (void)getPublicPhotoFlickrUser:(FAPSPublicPhoto *)publicPhoto{
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:[self getFlickrApiUrl:1 withParameter:publicPhoto.photoOwner]
-      parameters:nil
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [self.manager GET:[self getFlickrApiUrl:1 withParameter:publicPhoto.photoOwner]
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"person"];
              NSError *error;
              NSDictionary *responseDictionaryForFullName = [[responseDictionary valueForKey:@"username"] objectForKey:@"_content"];
@@ -96,12 +95,10 @@ static NetworkStatus networkStatus;
 }
 
 - (void)getAllPhotoSizes:(FAPSPhotoObject *)photoObject{
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:[self getFlickrApiUrl:2 withParameter:photoObject.publicPhoto.photoId]
-      parameters:nil
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [self.manager GET:[self getFlickrApiUrl:2 withParameter:photoObject.publicPhoto.photoId]
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"sizes"];
              NSDictionary *responsePhotoSizeDictionary = [responseDictionary valueForKey:@"size"];
              NSError *error;
@@ -129,33 +126,31 @@ static NetworkStatus networkStatus;
 
 - (void)getUserProfilePhoto:(FAPSPhotoObject *)photo{
     [self.downloader downloadImageWithURL:[NSURL URLWithString:photo.profilePhotoUrl]
-                             options:0
-                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                  options:0
+                                 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                                 // progression tracking code
-                            }
-                           completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                               if (data) {
-                                   photo.profilePhotoData = data;
-                               }else{
-                                   photo.profilePhotoData = UIImagePNGRepresentation([UIImage imageNamed:@"noUser.png"]);
-                               }
-                               
-                               [self getOrginalPhoto:photo];
-                              // [self getAllPhotoSizes:photo];
+                                 }
+                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                    if (data) {
+                                        photo.profilePhotoData = data;
+                                    }else{
+                                        photo.profilePhotoData = UIImagePNGRepresentation([UIImage imageNamed:@"noUser.png"]);
+                                    }
+                                    [self getOrginalPhoto:photo];
                            }];
 }
 
 - (void)getOrginalPhoto:(FAPSPhotoObject *)photo{
     NSString *photoUrl = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@.jpg",photo.publicPhoto.photoFarm,photo.publicPhoto.photoServer,photo.publicPhoto.photoId,photo.publicPhoto.photoSecret];
     [self.downloader downloadImageWithURL:[NSURL URLWithString:photoUrl]
-                             options:0
-                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                  options:0
+                                 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                                 // progression tracking code
-                            }
-                           completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                               photo.originalPhoto = data;
-                               [self getAllPhotoSizes:photo];
-                           }];
+                                 }
+                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                    photo.originalPhoto = data;
+                                    [self getAllPhotoSizes:photo];
+                                }];
 }
 
 #pragma mark - NSUserDefaults method

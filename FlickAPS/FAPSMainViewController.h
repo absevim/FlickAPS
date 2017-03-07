@@ -8,6 +8,6 @@
 
 #import "FAPSBaseViewController.h"
 
-@interface FAPSMainViewController : FAPSBaseViewController<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface FAPSMainViewController : FAPSBaseViewController<UICollectionViewDelegate,UICollectionViewDataSource,UIGestureRecognizerDelegate>
 
 @end
