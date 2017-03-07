@@ -22,6 +22,7 @@ static NetworkStatus networkStatus;
 @interface FAPSSplashViewController ()
 @property (nonatomic,strong) NSMutableArray *publicPhotoArray;
 @property (nonatomic,strong) NSMutableArray *photoSizeArray;
+@property (nonatomic,strong) NSMutableArray *hotTagArray;
 @property SDWebImageDownloader *downloader;
 @property AFHTTPSessionManager *manager;
 @end
@@ -33,6 +34,7 @@ static NetworkStatus networkStatus;
     
     self.publicPhotoArray = [[NSMutableArray alloc]init];
     self.photoSizeArray = [[NSMutableArray alloc]init];
+    self.hotTagArray = [[NSMutableArray alloc]init];
     self.manager = [AFHTTPSessionManager manager];
     self.downloader = [SDWebImageDownloader sharedDownloader];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -56,7 +58,14 @@ static NetworkStatus networkStatus;
               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                   NSDictionary *responseDictionary = [[(NSDictionary *)responseObject valueForKey:@"hottags"] valueForKey:@"tag"];
                   NSError *error;
-
+                  
+                  for (NSDictionary *dictionary in responseDictionary) {
+                    FAPSHotTagObject *hotTag = [MTLJSONAdapter modelOfClass:FAPSHotTagObject.class
+                                                         fromJSONDictionary:dictionary
+                                                                      error:&error];
+                      [self.hotTagArray addObject:hotTag];
+                  }
+                  [self getRecentPublicPhotos];
               }
               failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                   NSLog(@"%@",error);
