@@ -49,6 +49,9 @@
                                     <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="O11-Xr-Xnl">
                                         <rect key="frame" x="-0.5" y="20" width="375" height="44"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="dId-8Q-r0C" id="TbH-A7-3eo"/>
+                                        </connections>
                                     </searchBar>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ibl-6Q-0hf">
                                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
@@ -133,6 +136,36 @@
                                             <constraint firstItem="kNe-kd-DJS" firstAttribute="top" secondItem="ibl-6Q-0hf" secondAttribute="top" id="sxa-8S-4gh"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3Z-hq-Z63">
+                                        <rect key="frame" x="0.0" y="64" width="375" height="133.5"/>
+                                        <subviews>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="28" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sGh-Q4-Q3c">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="133.5"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="hotTagCell" id="feG-kI-8Wq">
+                                                        <rect key="frame" x="0.0" y="28" width="375" height="28"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="feG-kI-8Wq" id="Gl0-UI-tk4">
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="27"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="dId-8Q-r0C" id="UJ9-Tt-5WB"/>
+                                                    <outlet property="delegate" destination="dId-8Q-r0C" id="pXP-1b-d48"/>
+                                                </connections>
+                                            </tableView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="sGh-Q4-Q3c" firstAttribute="leading" secondItem="b3Z-hq-Z63" secondAttribute="leading" id="Lln-gz-tBk"/>
+                                            <constraint firstAttribute="trailing" secondItem="sGh-Q4-Q3c" secondAttribute="trailing" id="Zxq-YY-dIh"/>
+                                            <constraint firstItem="sGh-Q4-Q3c" firstAttribute="top" secondItem="b3Z-hq-Z63" secondAttribute="top" id="iMz-Xf-upm"/>
+                                            <constraint firstAttribute="bottom" secondItem="sGh-Q4-Q3c" secondAttribute="bottom" id="uZR-MQ-U34"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -140,8 +173,12 @@
                                     <constraint firstItem="O11-Xr-Xnl" firstAttribute="centerX" secondItem="Z6R-GI-knh" secondAttribute="centerX" id="CNG-LK-hUz"/>
                                     <constraint firstAttribute="bottom" secondItem="ibl-6Q-0hf" secondAttribute="bottom" id="Nu0-Ba-PSs"/>
                                     <constraint firstAttribute="trailing" secondItem="ibl-6Q-0hf" secondAttribute="trailing" id="OCn-I3-4k6"/>
+                                    <constraint firstItem="b3Z-hq-Z63" firstAttribute="top" secondItem="O11-Xr-Xnl" secondAttribute="bottom" id="POk-MX-1a9"/>
+                                    <constraint firstItem="b3Z-hq-Z63" firstAttribute="centerX" secondItem="Z6R-GI-knh" secondAttribute="centerX" id="bpf-O8-P5n"/>
                                     <constraint firstItem="O11-Xr-Xnl" firstAttribute="top" secondItem="Z6R-GI-knh" secondAttribute="top" constant="20" id="f1X-bZ-U9m"/>
+                                    <constraint firstItem="b3Z-hq-Z63" firstAttribute="height" secondItem="Z6R-GI-knh" secondAttribute="height" multiplier="0.2" id="goo-MS-gnd"/>
                                     <constraint firstItem="O11-Xr-Xnl" firstAttribute="width" secondItem="Z6R-GI-knh" secondAttribute="width" id="iyz-6T-fp2"/>
+                                    <constraint firstItem="b3Z-hq-Z63" firstAttribute="width" secondItem="Z6R-GI-knh" secondAttribute="width" id="p8O-Zm-Uen"/>
                                     <constraint firstItem="ibl-6Q-0hf" firstAttribute="leading" secondItem="Z6R-GI-knh" secondAttribute="leading" id="tGr-AM-7s6"/>
                                 </constraints>
                             </view>
@@ -156,6 +193,9 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="kNe-kd-DJS" id="sP2-fV-Obh"/>
+                        <outlet property="searchBar" destination="O11-Xr-Xnl" id="Pzn-da-gLV"/>
+                        <outlet property="searchView" destination="b3Z-hq-Z63" id="KPw-yU-3Ot"/>
+                        <outlet property="tableView" destination="sGh-Q4-Q3c" id="Zk8-D7-tax"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7v-qj-2Au" userLabel="First Responder" sceneMemberID="firstResponder"/>

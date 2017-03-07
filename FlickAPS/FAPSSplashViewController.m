@@ -22,7 +22,6 @@ static NetworkStatus networkStatus;
 @interface FAPSSplashViewController ()
 @property (nonatomic,strong) NSMutableArray *publicPhotoArray;
 @property (nonatomic,strong) NSMutableArray *photoSizeArray;
-@property (nonatomic,strong) NSMutableArray *hotTagArray;
 @property SDWebImageDownloader *downloader;
 @property AFHTTPSessionManager *manager;
 @end
@@ -34,16 +33,15 @@ static NetworkStatus networkStatus;
     
     self.publicPhotoArray = [[NSMutableArray alloc]init];
     self.photoSizeArray = [[NSMutableArray alloc]init];
-    self.hotTagArray = [[NSMutableArray alloc]init];
     self.manager = [AFHTTPSessionManager manager];
     self.downloader = [SDWebImageDownloader sharedDownloader];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     // If no internet connection, will show the last requested popular photos.
     if ([self checkReachability]) {
-        [userDefaults setObject:self.photoSizeArray forKey:@"photoArray"];
+        [userDefaults setObject:nil forKey:@"photoArray"];
+        [userDefaults setObject:nil forKey:@"hotTagArray"];
         [userDefaults synchronize];
         [self getHotTags];
-        //[self getRecentPublicPhotos];
     }else{
         [self hideSplash];
     }
@@ -63,7 +61,7 @@ static NetworkStatus networkStatus;
                     FAPSHotTagObject *hotTag = [MTLJSONAdapter modelOfClass:FAPSHotTagObject.class
                                                          fromJSONDictionary:dictionary
                                                                       error:&error];
-                      [self.hotTagArray addObject:hotTag];
+                      [self saveHotTags:hotTag];
                   }
                   [self getRecentPublicPhotos];
               }
@@ -82,8 +80,9 @@ static NetworkStatus networkStatus;
              NSError *error;
              
              for (NSDictionary *dictionary in publicPhotoDictionary) {
-                 FAPSPublicPhoto *publicPhoto =  [MTLJSONAdapter modelOfClass:FAPSPublicPhoto.class fromJSONDictionary:dictionary error:&error];
-                 
+                 FAPSPublicPhoto *publicPhoto =  [MTLJSONAdapter modelOfClass:FAPSPublicPhoto.class
+                                                           fromJSONDictionary:dictionary
+                                                                        error:&error];
                  [self.publicPhotoArray addObject:publicPhoto];
                  [self getPublicPhotoFlickrUser:publicPhoto];
              }
@@ -102,8 +101,9 @@ static NetworkStatus networkStatus;
              NSError *error;
              NSDictionary *responseDictionaryForFullName = [[responseDictionary valueForKey:@"username"] objectForKey:@"_content"];
              NSString *fullName = [NSString stringWithFormat:@"%@",responseDictionaryForFullName];
-             FAPSFlickrUser *flickrUser = [MTLJSONAdapter modelOfClass:FAPSFlickrUser.class fromJSONDictionary:responseDictionary error:&error];
-             
+             FAPSFlickrUser *flickrUser = [MTLJSONAdapter modelOfClass:FAPSFlickrUser.class
+                                                    fromJSONDictionary:responseDictionary
+                                                                 error:&error];
              FAPSPhotoObject *photo = [[FAPSPhotoObject alloc]init];
              photo.fullName = fullName;
              photo.flickrUser = flickrUser;
@@ -119,7 +119,7 @@ static NetworkStatus networkStatus;
          }];
 }
 
-- (void)getAllPhotoSizes:(FAPSPhotoObject *)photoObject{
+- (void)getPhotoTags:(FAPSPhotoObject *)photoObject{
     [self.manager GET:[self getFlickrApiUrl:3 withParameter:photoObject.publicPhoto.photoId]
            parameters:nil
              progress:nil
@@ -129,7 +129,9 @@ static NetworkStatus networkStatus;
              
             
              for (NSDictionary *dictionary in responseDictionary) {
-                 FAPSTagsObject *tagObject =  [MTLJSONAdapter modelOfClass:FAPSTagsObject.class fromJSONDictionary:dictionary error:&error];
+                 FAPSTagsObject *tagObject =  [MTLJSONAdapter modelOfClass:FAPSTagsObject.class
+                                                        fromJSONDictionary:dictionary
+                                                                     error:&error];
                  if (tagObject) [photoObject.tagsArray addObject:tagObject];
              }
                 [self.photoSizeArray addObject:photoObject];
@@ -152,7 +154,6 @@ static NetworkStatus networkStatus;
     [self.downloader downloadImageWithURL:[NSURL URLWithString:photo.profilePhotoUrl]
                                   options:0
                                  progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                // progression tracking code
                                  }
                                 completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
                                     if (data) {
@@ -173,7 +174,7 @@ static NetworkStatus networkStatus;
                                  }
                                 completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
                                     photo.originalPhoto = data;
-                                    [self getAllPhotoSizes:photo];
+                                    [self getPhotoTags:photo];
                                 }];
 }
 
@@ -196,6 +197,26 @@ static NetworkStatus networkStatus;
     NSData *savedData = [NSKeyedArchiver archivedDataWithRootObject:photoObject];
     [photoArray addObject:savedData];
     [userDefaults setObject:photoArray forKey:@"photoArray"];
+    [userDefaults synchronize];
+}
+
+- (void)saveHotTags:(FAPSHotTagObject *)hotTag{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *hotTagArray = [NSMutableArray arrayWithArray:[userDefaults objectForKey:@"hotTagArray"]];
+    
+    NSData *removedData;
+    for (NSData *data in hotTagArray) {
+        FAPSHotTagObject *savedHotTagObject = (FAPSHotTagObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data];
+        
+        if ([savedHotTagObject.content isEqualToString:hotTag.content]) {
+            removedData = data;
+        }
+    };
+    [hotTagArray removeObject:removedData];
+    
+    NSData *savedData = [NSKeyedArchiver archivedDataWithRootObject:hotTag];
+    [hotTagArray addObject:savedData];
+    [userDefaults setObject:hotTagArray forKey:@"hotTagArray"];
     [userDefaults synchronize];
 }
 
