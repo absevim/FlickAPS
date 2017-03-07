@@ -14,6 +14,7 @@
 #import "FAPSPublicPhoto.h"
 #import "FAPSPhotoObject.h"
 #import "FAPSTagsObject.h"
+#import "FAPSHotTagObject.h"
 
 static Reachability *networkNotifier;
 static NetworkStatus networkStatus;
@@ -39,13 +40,28 @@ static NetworkStatus networkStatus;
     if ([self checkReachability]) {
         [userDefaults setObject:self.photoSizeArray forKey:@"photoArray"];
         [userDefaults synchronize];
-        [self getRecentPublicPhotos];
+        [self getHotTags];
+        //[self getRecentPublicPhotos];
     }else{
         [self hideSplash];
     }
 }
 
 #pragma mark - FlickR request methods
+
+- (void)getHotTags{
+    [self.manager GET:[self getFlickrApiUrl:2 withParameter:@""]
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                  NSDictionary *responseDictionary = [[(NSDictionary *)responseObject valueForKey:@"hottags"] valueForKey:@"tag"];
+                  NSError *error;
+
+              }
+              failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                  NSLog(@"%@",error);
+              }];
+}
 
 - (void)getRecentPublicPhotos{
     [self.manager GET:[self getFlickrApiUrl:0 withParameter:@""]

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A7C70AFFECC05524A7A413DA /* libPods-FlickAPS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79733C9AA92CD9CE90C8E18A /* libPods-FlickAPS.a */; };
 		B80C5DBD1E6EDE4B00210750 /* FAPSTagsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B80C5DBC1E6EDE4B00210750 /* FAPSTagsObject.m */; };
+		B80C5DC01E6EE37C00210750 /* FAPSHotTagObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B80C5DBF1E6EE37C00210750 /* FAPSHotTagObject.m */; };
 		B84A59531E6E0BCF0092E7F5 /* FAPSCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B84A59521E6E0BCF0092E7F5 /* FAPSCollectionCell.m */; };
 		B84A59591E6E0F890092E7F5 /* libMantle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B84A59541E6E0F890092E7F5 /* libMantle.a */; };
 		B84A595A1E6E0F890092E7F5 /* libOvercoat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B84A59551E6E0F890092E7F5 /* libOvercoat.a */; };
@@ -57,6 +58,8 @@
 		B80C5DB81E6EACE000210750 /* libASMediaFocusManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASMediaFocusManager.a; path = "Pods/../build/Debug-iphoneos/ASMediaFocusManager/libASMediaFocusManager.a"; sourceTree = "<group>"; };
 		B80C5DBB1E6EDE4B00210750 /* FAPSTagsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSTagsObject.h; sourceTree = "<group>"; };
 		B80C5DBC1E6EDE4B00210750 /* FAPSTagsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSTagsObject.m; sourceTree = "<group>"; };
+		B80C5DBE1E6EE37C00210750 /* FAPSHotTagObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPSHotTagObject.h; sourceTree = "<group>"; };
+		B80C5DBF1E6EE37C00210750 /* FAPSHotTagObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPSHotTagObject.m; sourceTree = "<group>"; };
 		B8451CE41E64546F00B3AE99 /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
 		B8451CE61E64B41A00B3AE99 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B8451CE81E64B42000B3AE99 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -152,6 +155,8 @@
 				B8A76C741E687149009E0609 /* FAPSFlickrUser.m */,
 				B80C5DBB1E6EDE4B00210750 /* FAPSTagsObject.h */,
 				B80C5DBC1E6EDE4B00210750 /* FAPSTagsObject.m */,
+				B80C5DBE1E6EE37C00210750 /* FAPSHotTagObject.h */,
+				B80C5DBF1E6EE37C00210750 /* FAPSHotTagObject.m */,
 			);
 			name = "JSON Models";
 			sourceTree = "<group>";
@@ -463,6 +468,7 @@
 				B80C5DBD1E6EDE4B00210750 /* FAPSTagsObject.m in Sources */,
 				B8F654671E6596B60084C5B2 /* FAPSSplashViewController.m in Sources */,
 				B856A4E11E6359270070AB4D /* AppDelegate.m in Sources */,
+				B80C5DC01E6EE37C00210750 /* FAPSHotTagObject.m in Sources */,
 				B856A4DE1E6359270070AB4D /* main.m in Sources */,
 				B8F6546E1E65B0E80084C5B2 /* FAPSPublicPhoto.m in Sources */,
 			);
