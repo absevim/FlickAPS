@@ -84,7 +84,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9D-hi-TH9">
-                                                                    <rect key="frame" x="0.5" y="59.5" width="375" height="319"/>
+                                                                    <rect key="frame" x="0.5" y="62.5" width="375" height="319"/>
                                                                     <subviews>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U7h-7C-nsc">
                                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="319"/>
@@ -92,10 +92,10 @@
                                                                     </subviews>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
-                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="leading" secondItem="R9D-hi-TH9" secondAttribute="leading" id="Afw-Dy-2aK"/>
-                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="top" secondItem="R9D-hi-TH9" secondAttribute="top" id="W85-v4-51S"/>
-                                                                        <constraint firstAttribute="bottom" secondItem="U7h-7C-nsc" secondAttribute="bottom" id="oRL-PR-BJc"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="U7h-7C-nsc" secondAttribute="trailing" id="rIt-yI-KzB"/>
+                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="width" secondItem="R9D-hi-TH9" secondAttribute="width" id="3Pm-I8-AiB"/>
+                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="height" secondItem="R9D-hi-TH9" secondAttribute="height" id="DNJ-Fb-CaE"/>
+                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="centerY" secondItem="R9D-hi-TH9" secondAttribute="centerY" id="ayJ-Rf-3de"/>
+                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="centerX" secondItem="R9D-hi-TH9" secondAttribute="centerX" id="htH-OO-55z"/>
                                                                     </constraints>
                                                                 </view>
                                                             </subviews>
@@ -106,7 +106,7 @@
                                                             <constraint firstItem="t4A-N5-RPE" firstAttribute="leading" secondItem="a0P-iH-T09" secondAttribute="trailing" constant="5" id="Adw-b6-Iqd"/>
                                                             <constraint firstItem="t4A-N5-RPE" firstAttribute="centerY" secondItem="a0P-iH-T09" secondAttribute="centerY" id="Qb2-z4-foN"/>
                                                             <constraint firstItem="R9D-hi-TH9" firstAttribute="height" secondItem="7SC-6A-jC4" secondAttribute="height" multiplier="0.85" id="ZJR-Cy-hGx"/>
-                                                            <constraint firstItem="R9D-hi-TH9" firstAttribute="top" secondItem="t4A-N5-RPE" secondAttribute="bottom" constant="10" id="fi7-hv-a6a"/>
+                                                            <constraint firstItem="R9D-hi-TH9" firstAttribute="top" secondItem="t4A-N5-RPE" secondAttribute="bottom" constant="13" id="fi7-hv-a6a"/>
                                                             <constraint firstItem="R9D-hi-TH9" firstAttribute="centerX" secondItem="7SC-6A-jC4" secondAttribute="centerX" id="nfU-RU-ISH"/>
                                                             <constraint firstItem="a0P-iH-T09" firstAttribute="leading" secondItem="7SC-6A-jC4" secondAttribute="leadingMargin" id="o8O-k2-2mE"/>
                                                             <constraint firstItem="a0P-iH-T09" firstAttribute="top" secondItem="7SC-6A-jC4" secondAttribute="topMargin" constant="15" id="pct-r9-0dm"/>

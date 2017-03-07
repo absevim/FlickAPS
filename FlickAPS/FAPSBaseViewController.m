@@ -43,6 +43,8 @@ NSString *FLICKR_AUTH_TOKEN = @"&auth_token=72157677324780094-d1695453ff72d6e6";
         case 2:
             apiUrl = [NSString stringWithFormat:@"%@flickr.photos.getSizes%@&photo_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,parameter,FLICKR_FORMAT];
             break;
+        case 3:
+            apiUrl = [NSString stringWithFormat:@"%@flickr.tags.getListPhoto%@&photo_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,parameter,FLICKR_FORMAT];
         default:
             break;
     }

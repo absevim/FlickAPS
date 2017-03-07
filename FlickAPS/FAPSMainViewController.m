@@ -45,6 +45,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FAPSCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
+    
     FAPSPhotoObject *photoObject = (FAPSPhotoObject *) self.publicPhotoArray[indexPath.row];
     cell.username.text = photoObject.fullName;
     cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
@@ -54,23 +55,12 @@
     return cell;
 }
 
-
-/*
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake([UIScreen mainScreen].bounds.size.width, 350);
-    // A total of 4 views displayed at a time,  we divide width / 4,
-    // and cell will automatically adjust its size.
-} */
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(10, 10, 10, 10);
-}
-
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     FAPSPhotoObject *photoObject = (FAPSPhotoObject *) self.publicPhotoArray[indexPath.row];
     [self addFullScreenView:photoObject];
 }
+
+#pragma mark - Full Screen Methods
 
 - (void)addFullScreenView:(FAPSPhotoObject *)photoObject{
     self.fullScreenView = [[UIView alloc] init];
@@ -85,6 +75,7 @@
     
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = [UIImage imageWithData:photoObject.originalPhoto];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.fullScreenView addSubview:imageView];
     [self fullScreenViewForConstraint:imageView withView:self.fullScreenView withState:1];
 }
@@ -99,6 +90,8 @@
                     completion:NULL];
 }
 
+#pragma mark - Full Screen Constraint Method
+
 - (void)fullScreenViewForConstraint:(UIView *)fullScreenView withView:(UIView *)selfView withState:(NSInteger)state{
     ALDimension dimension;
     switch (state) {
@@ -112,14 +105,13 @@
         default:
             break;
     }
-    
     [fullScreenView autoMatchDimension:ALDimensionWidth
                            toDimension:ALDimensionWidth
-                                ofView:self.view
+                                ofView:selfView
                         withMultiplier:1.0];
     [fullScreenView autoMatchDimension:ALDimensionHeight
                            toDimension:dimension
-                                ofView:self.view
+                                ofView:selfView
                         withMultiplier:1.0];
     [fullScreenView autoAlignAxis:ALAxisHorizontal
                  toSameAxisOfView:selfView];

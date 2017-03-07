@@ -13,7 +13,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "FAPSPublicPhoto.h"
 #import "FAPSPhotoObject.h"
-#import "FAPSPhotoSizeObject.h"
+#import "FAPSTagsObject.h"
 
 static Reachability *networkNotifier;
 static NetworkStatus networkStatus;
@@ -95,19 +95,19 @@ static NetworkStatus networkStatus;
 }
 
 - (void)getAllPhotoSizes:(FAPSPhotoObject *)photoObject{
-    [self.manager GET:[self getFlickrApiUrl:2 withParameter:photoObject.publicPhoto.photoId]
+    [self.manager GET:[self getFlickrApiUrl:3 withParameter:photoObject.publicPhoto.photoId]
            parameters:nil
              progress:nil
               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"sizes"];
-             NSDictionary *responsePhotoSizeDictionary = [responseDictionary valueForKey:@"size"];
+             NSDictionary *responseDictionary = [[[(NSDictionary *)responseObject objectForKey:@"photo"] valueForKey:@"tags"] objectForKey:@"tag"];
              NSError *error;
              
-             for (NSDictionary *dictionary in responsePhotoSizeDictionary) {
-                 FAPSPhotoSizeObject *photoSizeObject =  [MTLJSONAdapter modelOfClass:FAPSPhotoSizeObject.class fromJSONDictionary:dictionary error:&error];
-                 [photoObject.photoSizeArray addObject:photoSizeObject];
+            
+             for (NSDictionary *dictionary in responseDictionary) {
+                 FAPSTagsObject *tagObject =  [MTLJSONAdapter modelOfClass:FAPSTagsObject.class fromJSONDictionary:dictionary error:&error];
+                 if (tagObject) [photoObject.tagsArray addObject:tagObject];
              }
-             [self.photoSizeArray addObject:photoObject];
+                [self.photoSizeArray addObject:photoObject];
              
              if (self.publicPhotoArray.count == self.photoSizeArray.count) {
                  for (FAPSPhotoObject *photoObject in self.photoSizeArray) {
@@ -115,7 +115,6 @@ static NetworkStatus networkStatus;
                  }
                  [self hideSplash];
              }
-             
          }
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              NSLog(@"%@",error);

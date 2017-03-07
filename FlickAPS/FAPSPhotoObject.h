@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSString *profilePhotoUrl;
 @property (nonatomic, strong) FAPSPublicPhoto *publicPhoto;
 @property (nonatomic, strong) FAPSFlickrUser *flickrUser;
-@property (nonatomic, strong) NSMutableArray *photoSizeArray;
+@property (nonatomic, strong) NSMutableArray *tagsArray;
 @property (nonatomic, strong) NSData *profilePhotoData;
 @property (nonatomic, strong) NSData *originalPhoto;
 @property (nonatomic, strong) NSData *largePhoto;
