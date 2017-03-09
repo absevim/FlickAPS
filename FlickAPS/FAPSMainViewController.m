@@ -10,8 +10,8 @@
 #import <AFNetworking.h>
 #import <Mantle.h>
 #import <PureLayout.h>
-#import <SDWebImage/UIImageView+WebCache.h>
 #import <ProgressHUD.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "FAPSPhotoObject.h"
 #import "FAPSTagsObject.h"
 #import "FAPSHotTagObject.h"
@@ -20,7 +20,7 @@
 @interface FAPSMainViewController ()
 
 @property (strong, nonatomic) NSMutableArray *publicPhotoArray;
-@property (strong, nonatomic) NSMutableArray *photoArray;
+@property (strong, nonatomic) NSMutableArray *dictionaryArray;
 @property (strong, nonatomic) NSMutableArray *photoArrayWithPhotos;
 @property (strong, nonatomic) NSMutableArray *filteredPublicPhotoArray;
 @property (strong, nonatomic) NSMutableArray *hotTagsArray;
@@ -33,8 +33,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSString *currentPage;
 @property (strong, nonatomic) NSString *totalPage;
-@property NSInteger pageNumber;
-@property NSInteger totalPageNumber;
+@property (assign, nonatomic) NSInteger pageNumber;
+@property (assign, nonatomic) NSInteger totalPageNumber;
+@property (assign, nonatomic) NSInteger totalItem;
 @property NSUserDefaults *userDefaults;
 @property BOOL isSearching;
 @property BOOL isHotTagSearching;
@@ -60,7 +61,7 @@
     self.photoArrayWithPhotos = [[NSMutableArray alloc]init];
     self.publicPhotoArray = [[NSMutableArray alloc]init];
     self.photoSizeArray = [[NSMutableArray alloc]init];
-    self.photoArray = [[NSMutableArray alloc]init];
+    self.dictionaryArray = [[NSMutableArray alloc]init];
     self.manager = [AFHTTPSessionManager manager];
     self.downloader = [SDWebImageDownloader sharedDownloader];
     self.pageNumber = 1;
@@ -94,30 +95,45 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     NSInteger count;
+    
     if (self.isSearching) {
         count = self.filteredPublicPhotoArray.count;
     } else {
-        count = self.publicPhotoArray.count;
+        if (self.pageNumber == self.totalPageNumber
+            || self.totalItem == self.publicPhotoArray.count) {
+            count = self.publicPhotoArray.count;
+        }else{
+            count = self.publicPhotoArray.count+1;
+        }
     }
     return count ;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    FAPSCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
-
-    FAPSPhotoObject *photoObject = [[FAPSPhotoObject alloc]init];
-    if (self.isSearching){
-        photoObject = (FAPSPhotoObject *)self.filteredPublicPhotoArray[indexPath.item];
+    FAPSCollectionCell *cell = nil;
+    if (indexPath.row == [self.publicPhotoArray count]) {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
+        cell.username.text = @"";
+        cell.userPhoto.image = nil;
+        cell.originalPhoto.image = nil;
+        [ProgressHUD show:@"Loading.."];
     }else{
-        photoObject = (FAPSPhotoObject *)self.publicPhotoArray[indexPath.item];
+        [ProgressHUD dismiss];
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"loadingCell" forIndexPath:indexPath];
+        FAPSPhotoObject *photoObject = [[FAPSPhotoObject alloc]init];
+        if (self.isSearching){
+            photoObject = (FAPSPhotoObject *)self.filteredPublicPhotoArray[(NSUInteger)indexPath.row];
+        }else{
+            photoObject = (FAPSPhotoObject *)self.publicPhotoArray[(NSUInteger)indexPath.row];
+        }
+        cell.username.text = photoObject.fullName;
+        cell.tag = indexPath.row;
+        cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
+        cell.userPhoto.clipsToBounds = YES;
+        cell.userPhoto.image = [UIImage imageWithData:photoObject.profilePhotoData];
+        cell.originalPhoto.image = [UIImage imageWithData:photoObject.originalPhoto];
+        self.isSearching = NO;
     }
-    cell.username.text = photoObject.fullName;
-    cell.tag = indexPath.row;
-    cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
-    cell.userPhoto.clipsToBounds = YES;
-    cell.userPhoto.image = [UIImage imageWithData:photoObject.profilePhotoData];
-    cell.originalPhoto.image = [UIImage imageWithData:photoObject.originalPhoto];
-    self.isSearching = NO;
     return cell;
 }
 
@@ -132,8 +148,9 @@
         [self dismissKeyboard];
     }
 }
-- (void)scrollViewDidEndDecelerating:(UICollectionView *)scrollView{
-    if (self.pageNumber != self.totalPageNumber || !self.isSearching) {
+
+-(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == [self.publicPhotoArray count] - 1) {
         [self getRecentPublicPhotos:[NSString stringWithFormat:@"%li",self.pageNumber]];
     }
 }
@@ -172,14 +189,15 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     searchBar.text = @"";
-    [searchBar resignFirstResponder];
-    self.isSearching = NO;
-    self.isHotTagSearching = NO;
-    [self.filteredPublicPhotoArray removeAllObjects];
-    [self.filteredHotTagsArray removeAllObjects];
-    [self.collectionView reloadData];
-    [self.tableView reloadData];
-    [self dismissKeyboard];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.isSearching = NO;
+        self.isHotTagSearching = NO;
+        [self.filteredPublicPhotoArray removeAllObjects];
+        [self.filteredHotTagsArray removeAllObjects];
+        [self.collectionView reloadData];
+        [self.tableView reloadData];
+        [self dismissKeyboard];
+    });
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
@@ -194,7 +212,6 @@
     [self searchWithTag:searchString];
     [self searchWithUserName:searchString];
     self.isSearching = YES;
-    self.isHotTagSearching = YES;
     [self.collectionView reloadData];
     [self dismissKeyboard];
   
@@ -205,17 +222,20 @@
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    return YES;
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    [self.filteredHotTagsArray removeAllObjects];
     for (FAPSHotTagObject *hotTag in self.hotTagsArray) {
-        NSRange rangeValue = [hotTag.content rangeOfString:text options:(NSCaseInsensitiveSearch|NSDiacriticInsensitivePredicateOption)];
+        NSRange rangeValue = [hotTag.content rangeOfString:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitivePredicateOption)];
         if (rangeValue.length>0) {
             [self.filteredHotTagsArray addObject:hotTag];
             self.isHotTagSearching = YES;
             [self.tableView reloadData];
         }
     }
-    return YES;
 }
-
 #pragma mark - Tableview Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -326,21 +346,17 @@
 }
 
 - (void)getRecentPublicPhotos:(NSString *)pageNumber{
-    [ProgressHUD show:@"Loading.."];
     [self.manager GET:[self getFlickrApiUrl:0 withParameter:pageNumber]
            parameters:nil
              progress:nil
               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                   NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"photos"];
                   NSDictionary *publicPhotoDictionary = [responseDictionary objectForKey:@"photo"];
-                  self.currentPage = [responseDictionary objectForKey:@"page"];
-                  self.pageNumber = [self.currentPage integerValue];
-                  self.pageNumber++;
-                  self.totalPage = [responseDictionary objectForKey:@"pages"];
-                  self.totalPageNumber = [self.totalPage integerValue];
-                  NSError *error;
                   
-                  for (NSDictionary *dictionary in publicPhotoDictionary) {
+                  self.totalItem = [(NSString *)[responseObject objectForKey:@"total"] integerValue];
+                  self.totalPageNumber = [(NSString *)[responseDictionary objectForKey:@"pages"]integerValue];
+                  NSError *error;
+                  for (NSDictionary *dictionary in publicPhotoDictionary){
                       FAPSPublicPhoto *publicPhoto =  [MTLJSONAdapter modelOfClass:FAPSPublicPhoto.class
                                                                 fromJSONDictionary:dictionary
                                                                              error:&error];
@@ -432,8 +448,9 @@
 
 - (void)savePhoto:(FAPSPhotoObject *)photo{
     [self.publicPhotoArray addObject:photo];
-    [self.collectionView reloadData];
-    [ProgressHUD dismiss];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
 }
 
 @end
