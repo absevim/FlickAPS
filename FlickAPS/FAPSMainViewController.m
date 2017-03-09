@@ -345,6 +345,8 @@
     [self.searchBar resignFirstResponder];
 }
 
+#pragma mark - Loading Flickr Data Methods
+
 - (void)getRecentPublicPhotos:(NSString *)pageNumber{
     [self.manager GET:[self getFlickrApiUrl:0 withParameter:pageNumber]
            parameters:nil
@@ -400,7 +402,6 @@
                   NSDictionary *responseDictionary = [[[(NSDictionary *)responseObject objectForKey:@"photo"] valueForKey:@"tags"] objectForKey:@"tag"];
                   NSError *error;
                   
-                  
                   for (NSDictionary *dictionary in responseDictionary) {
                       FAPSTagsObject *tagObject =  [MTLJSONAdapter modelOfClass:FAPSTagsObject.class
                                                              fromJSONDictionary:dictionary
@@ -447,7 +448,15 @@
 }
 
 - (void)savePhoto:(FAPSPhotoObject *)photo{
-    [self.publicPhotoArray addObject:photo];
+        FAPSPhotoObject *removePhoto;
+        for (FAPSPhotoObject *tempPhoto in self.publicPhotoArray) {
+            if ([tempPhoto.publicPhoto.photoId isEqualToString:photo.publicPhoto.photoId]) {
+                NSLog(@"bezokko");
+                removePhoto = tempPhoto;
+            }
+        };
+        [self.publicPhotoArray removeObject:removePhoto];
+        [self.publicPhotoArray addObject:photo];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView reloadData];
     });
