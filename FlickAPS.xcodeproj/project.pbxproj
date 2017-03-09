@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A7C70AFFECC05524A7A413DA /* libPods-FlickAPS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79733C9AA92CD9CE90C8E18A /* libPods-FlickAPS.a */; };
+		B80916D81E70C8E400D87A95 /* libProgressHUD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B80916D71E70C8E400D87A95 /* libProgressHUD.a */; };
 		B80C5DBD1E6EDE4B00210750 /* FAPSTagsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B80C5DBC1E6EDE4B00210750 /* FAPSTagsObject.m */; };
 		B80C5DC01E6EE37C00210750 /* FAPSHotTagObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B80C5DBF1E6EE37C00210750 /* FAPSHotTagObject.m */; };
 		B84A59531E6E0BCF0092E7F5 /* FAPSCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B84A59521E6E0BCF0092E7F5 /* FAPSCollectionCell.m */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		79733C9AA92CD9CE90C8E18A /* libPods-FlickAPS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlickAPS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		916FD8283FFF31848DFD6147 /* libPods-FlickAPSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlickAPSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B80916D71E70C8E400D87A95 /* libProgressHUD.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libProgressHUD.a; path = "Pods/../build/Debug-iphoneos/ProgressHUD/libProgressHUD.a"; sourceTree = "<group>"; };
 		B80C5DB31E6EA34A00210750 /* libFLAnimatedImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFLAnimatedImage.a; path = "Pods/../build/Debug-iphoneos/FLAnimatedImage/libFLAnimatedImage.a"; sourceTree = "<group>"; };
 		B80C5DB41E6EA34A00210750 /* libNYTPhotoViewer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libNYTPhotoViewer.a; path = "Pods/../build/Debug-iphoneos/NYTPhotoViewer/libNYTPhotoViewer.a"; sourceTree = "<group>"; };
 		B80C5DB71E6EACE000210750 /* libASBPlayerScrubbing.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASBPlayerScrubbing.a; path = "Pods/../build/Debug-iphoneos/ASBPlayerScrubbing/libASBPlayerScrubbing.a"; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B80916D81E70C8E400D87A95 /* libProgressHUD.a in Frameworks */,
 				B84A59591E6E0F890092E7F5 /* libMantle.a in Frameworks */,
 				B84A595A1E6E0F890092E7F5 /* libOvercoat.a in Frameworks */,
 				B84A595B1E6E0F890092E7F5 /* libPureLayout.a in Frameworks */,
@@ -254,6 +257,7 @@
 		C997D1FA6A4E7EC107718FCC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B80916D71E70C8E400D87A95 /* libProgressHUD.a */,
 				B80C5DC11E6F6C8800210750 /* libProgressHUD.a */,
 				B80C5DB71E6EACE000210750 /* libASBPlayerScrubbing.a */,
 				B80C5DB81E6EACE000210750 /* libASMediaFocusManager.a */,

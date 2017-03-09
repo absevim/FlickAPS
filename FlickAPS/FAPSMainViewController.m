@@ -10,6 +10,8 @@
 #import <AFNetworking.h>
 #import <Mantle.h>
 #import <PureLayout.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <ProgressHUD.h>
 #import "FAPSPhotoObject.h"
 #import "FAPSTagsObject.h"
 #import "FAPSHotTagObject.h"
@@ -18,6 +20,8 @@
 @interface FAPSMainViewController ()
 
 @property (strong, nonatomic) NSMutableArray *publicPhotoArray;
+@property (strong, nonatomic) NSMutableArray *photoArray;
+@property (strong, nonatomic) NSMutableArray *photoArrayWithPhotos;
 @property (strong, nonatomic) NSMutableArray *filteredPublicPhotoArray;
 @property (strong, nonatomic) NSMutableArray *hotTagsArray;
 @property (strong, nonatomic) NSMutableArray *filteredHotTagsArray;
@@ -27,18 +31,39 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSString *currentPage;
+@property (strong, nonatomic) NSString *totalPage;
+@property NSInteger pageNumber;
+@property NSInteger totalPageNumber;
 @property NSUserDefaults *userDefaults;
 @property BOOL isSearching;
 @property BOOL isHotTagSearching;
+@property (nonatomic) CGFloat lastContentOffset;
+
+@property (nonatomic,strong) NSMutableArray *photoSizeArray;
+@property SDWebImageDownloader *downloader;
+@property AFHTTPSessionManager *manager;
 @end
 
 @implementation FAPSMainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     self.collectionView.delegate = self;
     self.filteredPublicPhotoArray = [[NSMutableArray alloc]init];
     self.filteredHotTagsArray = [[NSMutableArray alloc]init];
+    self.photoArrayWithPhotos = [[NSMutableArray alloc]init];
+    self.publicPhotoArray = [[NSMutableArray alloc]init];
+    self.photoSizeArray = [[NSMutableArray alloc]init];
+    self.photoArray = [[NSMutableArray alloc]init];
+    self.manager = [AFHTTPSessionManager manager];
+    self.downloader = [SDWebImageDownloader sharedDownloader];
+    self.pageNumber = 1;
     self.searchBar.delegate = self;
     self.searchView.hidden = YES;
     self.isSearching = NO;
@@ -49,27 +74,20 @@
                 action:@selector(dismissKeyboard)];
     UITextField *searchBarTextField = [self.searchBar valueForKey:@"_searchField"];
     searchBarTextField.clearButtonMode = UITextFieldViewModeNever;
-    [self getHotTags];
+     [self getHotTags];
 }
 
 - (void)getHotTags{
    NSArray *hotTagArrayFromUserDefaults = [self.userDefaults objectForKey:@"hotTagArray"];
+   NSString *pageNumberString = [NSString stringWithFormat:@"%li",self.pageNumber];
     self.hotTagsArray = [NSMutableArray array];
     for (NSData *hotTagData in hotTagArrayFromUserDefaults) {
         FAPSHotTagObject *hotTag = (FAPSHotTagObject *)[NSKeyedUnarchiver unarchiveObjectWithData:hotTagData];
         [self.hotTagsArray addObject:hotTag];
     }
-    [self getPhotoObjects];
-}
-
-- (void)getPhotoObjects{
-    NSArray *photoArrayFromUserDefaults = [self.userDefaults objectForKey:@"photoArray"];
-    self.publicPhotoArray = [[NSMutableArray alloc] init];
-    for (NSData *photoData in photoArrayFromUserDefaults) {
-        FAPSPhotoObject *photoObject = (FAPSPhotoObject *) [NSKeyedUnarchiver unarchiveObjectWithData:photoData];
-        [self.publicPhotoArray addObject:photoObject];
-    }
-    [self.collectionView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self getRecentPublicPhotos:pageNumberString];
+    });
 }
 
 #pragma mark - CollectionView Methods
@@ -86,14 +104,15 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FAPSCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
-    
-    FAPSPhotoObject *photoObject;
+
+    FAPSPhotoObject *photoObject = [[FAPSPhotoObject alloc]init];
     if (self.isSearching){
-        photoObject = (FAPSPhotoObject *)self.filteredPublicPhotoArray[indexPath.row];
+        photoObject = (FAPSPhotoObject *)self.filteredPublicPhotoArray[indexPath.item];
     }else{
-        photoObject = (FAPSPhotoObject *)self.publicPhotoArray[indexPath.row];
+        photoObject = (FAPSPhotoObject *)self.publicPhotoArray[indexPath.item];
     }
     cell.username.text = photoObject.fullName;
+    cell.tag = indexPath.row;
     cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
     cell.userPhoto.clipsToBounds = YES;
     cell.userPhoto.image = [UIImage imageWithData:photoObject.profilePhotoData];
@@ -111,6 +130,11 @@
 - (void)scrollViewDidScroll:(UICollectionView *)collectionView{
     if (collectionView == self.collectionView) {
         [self dismissKeyboard];
+    }
+}
+- (void)scrollViewDidEndDecelerating:(UICollectionView *)scrollView{
+    if (self.pageNumber != self.totalPageNumber || !self.isSearching) {
+        [self getRecentPublicPhotos:[NSString stringWithFormat:@"%li",self.pageNumber]];
     }
 }
 
@@ -189,7 +213,6 @@
             [self.tableView reloadData];
         }
     }
-
     return YES;
 }
 
@@ -300,6 +323,117 @@
     self.searchBar.showsCancelButton = NO;
     [self.view removeGestureRecognizer:self.tap];
     [self.searchBar resignFirstResponder];
+}
+
+- (void)getRecentPublicPhotos:(NSString *)pageNumber{
+    [ProgressHUD show:@"Loading.."];
+    [self.manager GET:[self getFlickrApiUrl:0 withParameter:pageNumber]
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                  NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"photos"];
+                  NSDictionary *publicPhotoDictionary = [responseDictionary objectForKey:@"photo"];
+                  self.currentPage = [responseDictionary objectForKey:@"page"];
+                  self.pageNumber = [self.currentPage integerValue];
+                  self.pageNumber++;
+                  self.totalPage = [responseDictionary objectForKey:@"pages"];
+                  self.totalPageNumber = [self.totalPage integerValue];
+                  NSError *error;
+                  
+                  for (NSDictionary *dictionary in publicPhotoDictionary) {
+                      FAPSPublicPhoto *publicPhoto =  [MTLJSONAdapter modelOfClass:FAPSPublicPhoto.class
+                                                                fromJSONDictionary:dictionary
+                                                                             error:&error];
+                      [self getPublicPhotoFlickrUser:publicPhoto];
+                  }
+              }
+              failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                  NSLog(@"%@",error);
+              }];
+}
+
+- (void)getPublicPhotoFlickrUser:(FAPSPublicPhoto *)publicPhoto{
+        [self.manager GET:[self getFlickrApiUrl:1 withParameter:publicPhoto.photoOwner]
+               parameters:nil
+                 progress:nil
+                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                      NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"person"];
+                      NSError *error;
+                      NSDictionary *responseDictionaryForFullName = [[responseDictionary valueForKey:@"username"] objectForKey:@"_content"];
+                      NSString *fullName = [NSString stringWithFormat:@"%@",responseDictionaryForFullName];
+                      FAPSFlickrUser *flickrUser = [MTLJSONAdapter modelOfClass:FAPSFlickrUser.class
+                                                             fromJSONDictionary:responseDictionary
+                                                                          error:&error];
+                      FAPSPhotoObject *photo = [[FAPSPhotoObject alloc]init];
+                      photo.fullName = fullName;
+                      photo.flickrUser = flickrUser;
+                      photo.publicPhoto = publicPhoto;
+                      photo.profilePhotoUrl  = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/buddyicons/%@.jpg",flickrUser.iconfarm,flickrUser.iconserver,publicPhoto.photoOwner];
+                      [self getUserProfilePhoto:photo];
+                  }
+                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                      NSLog(@"%@",error);
+                  }];
+}
+
+- (void)getPhotoTags:(FAPSPhotoObject *)photoObject{
+    [self.manager GET:[self getFlickrApiUrl:3 withParameter:photoObject.publicPhoto.photoId]
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                  NSDictionary *responseDictionary = [[[(NSDictionary *)responseObject objectForKey:@"photo"] valueForKey:@"tags"] objectForKey:@"tag"];
+                  NSError *error;
+                  
+                  
+                  for (NSDictionary *dictionary in responseDictionary) {
+                      FAPSTagsObject *tagObject =  [MTLJSONAdapter modelOfClass:FAPSTagsObject.class
+                                                             fromJSONDictionary:dictionary
+                                                                          error:&error];
+                      if (tagObject){
+                         [photoObject.tagsArray addObject:tagObject];
+                      }
+                  }
+                  [self savePhoto:photoObject];
+              }
+              failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                  NSLog(@"%@",error);
+              }];
+}
+
+#pragma mark - Image downloading methods
+
+- (void)getUserProfilePhoto:(FAPSPhotoObject *)photo{
+    [self.downloader downloadImageWithURL:[NSURL URLWithString:photo.profilePhotoUrl]
+                                  options:0
+                                 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                 }
+                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                    if (data) {
+                                        photo.profilePhotoData = data;
+                                    }else{
+                                        photo.profilePhotoData = UIImagePNGRepresentation([UIImage imageNamed:@"noUser.png"]);
+                                    }
+                                    [self getOrginalPhoto:photo];
+                                }];
+}
+
+- (void)getOrginalPhoto:(FAPSPhotoObject *)photo{
+    NSString *photoUrl = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@.jpg",photo.publicPhoto.photoFarm,photo.publicPhoto.photoServer,photo.publicPhoto.photoId,photo.publicPhoto.photoSecret];
+    [self.downloader downloadImageWithURL:[NSURL URLWithString:photoUrl]
+                                  options:0
+                                 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                     // progression tracking code
+                                 }
+                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                    photo.originalPhoto = data;
+                                    [self getPhotoTags:photo];
+                                }];
+}
+
+- (void)savePhoto:(FAPSPhotoObject *)photo{
+    [self.publicPhotoArray addObject:photo];
+    [self.collectionView reloadData];
+    [ProgressHUD dismiss];
 }
 
 @end

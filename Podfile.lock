@@ -21,6 +21,7 @@ PODS:
     - AFNetworking/NSURLSession (~> 3.0)
     - AFNetworking/Serialization (~> 3.0)
     - Mantle (~> 2.0)
+  - ProgressHUD (2.4)
   - PureLayout (3.0.2)
   - Reachability (3.2)
   - SDWebImage (3.8.2):
@@ -30,6 +31,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - Overcoat (~> 4.0.0-beta.1)
+  - ProgressHUD
   - PureLayout
   - Reachability
   - SDWebImage (~> 3.8)
@@ -38,10 +40,11 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
   Overcoat: 2ddaa6d66edebc375f3e24a37974631d5aff7ebe
+  ProgressHUD: 4b66b0df0e08519c5c7283a198fd2867a114c95a
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: 99185937f8c68427c266f612baa59bec2b27e39a
+PODFILE CHECKSUM: d9a133db28f8ce25ff91e46431062af23c78b5f7
 
 COCOAPODS: 1.2.0

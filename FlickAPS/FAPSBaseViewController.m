@@ -34,7 +34,8 @@ NSString *FLICKR_AUTH_TOKEN = @"&auth_token=72157677324780094-d1695453ff72d6e6";
     NSString *apiUrl = @"";
     switch (tag) {
         case 0:
-            apiUrl = [NSString stringWithFormat:@"%@flickr.photos.getRecent%@%@",FLICKR_LINK,FLICKR_API_KEY,FLICKR_FORMAT];
+            /*https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=216973c8a63e3101968818cc48ddfa37&per_page=10&format=json&nojsoncallback=1*/
+            apiUrl = [NSString stringWithFormat:@"%@flickr.photos.getRecent%@&per_page=7&page=%@%@",FLICKR_LINK,FLICKR_API_KEY,parameter,FLICKR_FORMAT];
             break;
         case 1:
             parameter = [parameter stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
