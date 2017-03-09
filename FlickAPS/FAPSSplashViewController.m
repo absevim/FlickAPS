@@ -40,7 +40,9 @@ static NetworkStatus networkStatus;
             [self getHotTags];
         });
     }else{
-        NSLog(@"Alert");
+        [self showAlertView:@"No internet connection.."
+           withCancelButton:@"OK"
+            withOtherButton:nil withTag:0];
     }
 }
 
@@ -108,6 +110,10 @@ static NetworkStatus networkStatus;
         isConnected = NO;
     }
     return isConnected;
+}
+
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex{
 }
 
 @end

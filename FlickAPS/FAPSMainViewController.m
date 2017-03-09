@@ -20,8 +20,6 @@
 @interface FAPSMainViewController ()
 
 @property (strong, nonatomic) NSMutableArray *publicPhotoArray;
-@property (strong, nonatomic) NSMutableArray *dictionaryArray;
-@property (strong, nonatomic) NSMutableArray *photoArrayWithPhotos;
 @property (strong, nonatomic) NSMutableArray *filteredPublicPhotoArray;
 @property (strong, nonatomic) NSMutableArray *hotTagsArray;
 @property (strong, nonatomic) NSMutableArray *filteredHotTagsArray;
@@ -58,10 +56,7 @@
     self.collectionView.delegate = self;
     self.filteredPublicPhotoArray = [[NSMutableArray alloc]init];
     self.filteredHotTagsArray = [[NSMutableArray alloc]init];
-    self.photoArrayWithPhotos = [[NSMutableArray alloc]init];
     self.publicPhotoArray = [[NSMutableArray alloc]init];
-    self.photoSizeArray = [[NSMutableArray alloc]init];
-    self.dictionaryArray = [[NSMutableArray alloc]init];
     self.manager = [AFHTTPSessionManager manager];
     self.downloader = [SDWebImageDownloader sharedDownloader];
     self.pageNumber = 1;

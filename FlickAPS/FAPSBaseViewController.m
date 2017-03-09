@@ -57,6 +57,20 @@ NSString *FLICKR_AUTH_TOKEN = @"&auth_token=72157677324780094-d1695453ff72d6e6";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Alertview Method
+
+- (void)showAlertView:(NSString *)message withCancelButton:(NSString *)cancelButton withOtherButton:(NSString *)otherButton withTag:(NSInteger)tag{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"FlickAps"
+                                                    message:message
+                                                   delegate:self
+                                          cancelButtonTitle:cancelButton
+                                          otherButtonTitles:otherButton,nil];
+    alert.tag = tag;
+    [alert show];
+    
+}
+
+
 
 
 

@@ -12,7 +12,7 @@
 @interface FAPSBaseViewController : UIViewController
 
 - (NSString *)getFlickrApiUrl:(NSInteger)tag withParameter:(NSString *)parameter;
-
+- (void)showAlertView:(NSString *)message withCancelButton:(NSString *)cancelButton withOtherButton:(NSString *)otherButton withTag:(NSInteger)tag;
 
 @end
 
