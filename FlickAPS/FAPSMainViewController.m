@@ -124,6 +124,7 @@
         cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
         cell.userPhoto.clipsToBounds = YES;
         cell.userPhoto.image = [UIImage imageWithData:photoObject.profilePhotoData];
+        cell.userPhoto.contentMode = UIViewContentModeScaleAspectFill;
         cell.originalPhoto.image = [UIImage imageWithData:photoObject.originalPhoto];
         self.isSearching = NO;
     }
