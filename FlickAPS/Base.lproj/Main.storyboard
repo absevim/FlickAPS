@@ -114,19 +114,19 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9D-hi-TH9">
+                                                                <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9D-hi-TH9">
                                                                     <rect key="frame" x="0.5" y="62.5" width="375" height="319"/>
                                                                     <subviews>
-                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U7h-7C-nsc">
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U7h-7C-nsc">
                                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="319"/>
                                                                         </imageView>
                                                                     </subviews>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
-                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="width" secondItem="R9D-hi-TH9" secondAttribute="width" id="3Pm-I8-AiB"/>
-                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="height" secondItem="R9D-hi-TH9" secondAttribute="height" id="DNJ-Fb-CaE"/>
-                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="centerY" secondItem="R9D-hi-TH9" secondAttribute="centerY" id="ayJ-Rf-3de"/>
-                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="centerX" secondItem="R9D-hi-TH9" secondAttribute="centerX" id="htH-OO-55z"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="U7h-7C-nsc" secondAttribute="trailing" id="Xle-Cz-6FH"/>
+                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="top" secondItem="R9D-hi-TH9" secondAttribute="top" id="fkl-M3-IyU"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="U7h-7C-nsc" secondAttribute="bottom" id="q0a-ER-Ng3"/>
+                                                                        <constraint firstItem="U7h-7C-nsc" firstAttribute="leading" secondItem="R9D-hi-TH9" secondAttribute="leading" id="t0f-NU-qt9"/>
                                                                     </constraints>
                                                                 </view>
                                                             </subviews>

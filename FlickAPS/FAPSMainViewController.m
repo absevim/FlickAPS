@@ -115,10 +115,8 @@
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
         cell.username.text = @"";
         cell.userPhoto.image = nil;
-        cell.originalPhoto.image = nil;
-        [ProgressHUD show:@"Loading.."];
+        cell.originalPhoto.image = [UIImage imageNamed:@"loading.png"];
     }else{
-        [ProgressHUD dismiss];
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"loadingCell" forIndexPath:indexPath];
         FAPSPhotoObject *photoObject = [[FAPSPhotoObject alloc]init];
         if (self.isSearching){
@@ -161,8 +159,7 @@
     self.fullScreenView = [[UIView alloc] init];
     [self.fullScreenView setBackgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.85f]];
     
-    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDownToCloseFullScreen:)];
-    [swipeGesture setDirection:UISwipeGestureRecognizerDirectionDown];
+    UITapGestureRecognizer *swipeGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToCloseFullScreen:)];
     [self.fullScreenView addGestureRecognizer:swipeGesture];
     
     [self.view addSubview:self.fullScreenView];
@@ -175,7 +172,7 @@
     [self fullScreenViewForConstraint:imageView withView:self.fullScreenView withState:1];
 }
 
-- (void)swipeDownToCloseFullScreen:(UISwipeGestureRecognizer *)recognizer {
+- (void)tapToCloseFullScreen:(UISwipeGestureRecognizer *)recognizer {
     [UIView animateWithDuration:0.5
                           delay:0.0
                         options:UIViewAnimationOptionTransitionFlipFromTop
@@ -305,7 +302,6 @@
     for (FAPSPhotoObject *filteredPhoto in self.publicPhotoArray) {
         [self searchContent:filteredPhoto.fullName withFilterContent:userNameContent withFilteredPhoto:filteredPhoto];
     }
-    
 }
 
 #pragma mark - Full Screen Constraint Method
