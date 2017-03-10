@@ -240,6 +240,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
+    [ProgressHUD dismiss];
     self.searchView.hidden = NO;
     self.searchBar.showsCancelButton = YES;
     return YES;
@@ -269,7 +270,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    return 20.5;
+    return 41.;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
