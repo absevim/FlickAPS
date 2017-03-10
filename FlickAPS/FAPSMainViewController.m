@@ -227,6 +227,7 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     searchBar.text = @"";
+    [ProgressHUD dismiss];
     self.isSearching = NO;
     self.isHotTagSearching = NO;
     [self.collectionView setContentOffset:CGPointZero animated:YES];
@@ -512,9 +513,9 @@
     };
     [photoArray removeObject:removePhoto];
     [photoArray addObject:photo];
-    [ProgressHUD dismiss];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView reloadData];
     });
+    [ProgressHUD dismiss];
 }
 @end
