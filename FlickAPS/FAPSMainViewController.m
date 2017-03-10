@@ -263,13 +263,18 @@
 #pragma mark - Tableview Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger hotTagCount;
-    if (self.isHotTagSearching == YES) {
-        hotTagCount = self.filteredHotTagsArray.count;
-    }else{
-        hotTagCount = self.hotTagsArray.count;
-    }
-    return hotTagCount;
+    return self.hotTagsArray.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    return 20.5;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [UIColor clearColor];
+    return headerView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -287,6 +292,7 @@
     cell.textLabel.text = hotTagObject.content;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.textColor = [UIColor colorWithRed:11./255. green:37./255. blue:255./255. alpha:1.];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorColor = [UIColor clearColor];
     return cell;
 }

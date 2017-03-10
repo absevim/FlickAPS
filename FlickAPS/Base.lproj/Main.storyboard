@@ -222,13 +222,13 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3Z-hq-Z63">
                                         <rect key="frame" x="0.0" y="96.5" width="375" height="667"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="18" sectionHeaderHeight="42" sectionFooterHeight="42" translatesAutoresizingMaskIntoConstraints="NO" id="sGh-Q4-Q3c">
-                                                <rect key="frame" x="0.0" y="131.5" width="375" height="520.5"/>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="18" sectionHeaderHeight="20" sectionFooterHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="sGh-Q4-Q3c">
+                                                <rect key="frame" x="0.0" y="83.5" width="375" height="533.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="hotTagCell" id="ghh-CZ-ool">
-                                                        <rect key="frame" x="0.0" y="42" width="375" height="18"/>
+                                                        <rect key="frame" x="0.0" y="20" width="375" height="18"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ghh-CZ-ool" id="igc-Ho-fVJ">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="17"/>
@@ -243,7 +243,7 @@
                                                 </connections>
                                             </tableView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xWp-J1-FRe">
-                                                <rect key="frame" x="141" y="95.5" width="94" height="30"/>
+                                                <rect key="frame" x="141" y="47.5" width="94" height="30"/>
                                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="25"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -251,10 +251,10 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="sGh-Q4-Q3c" secondAttribute="bottom" constant="15" id="31g-cI-mRJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="sGh-Q4-Q3c" secondAttribute="bottom" constant="50" id="31g-cI-mRJ"/>
                                             <constraint firstItem="sGh-Q4-Q3c" firstAttribute="top" secondItem="xWp-J1-FRe" secondAttribute="bottom" constant="6" id="EAf-Nv-InW"/>
                                             <constraint firstItem="sGh-Q4-Q3c" firstAttribute="width" secondItem="b3Z-hq-Z63" secondAttribute="width" id="R2H-Go-IvH"/>
-                                            <constraint firstItem="sGh-Q4-Q3c" firstAttribute="height" secondItem="b3Z-hq-Z63" secondAttribute="height" multiplier="0.78" id="Zle-Ai-81z"/>
+                                            <constraint firstItem="sGh-Q4-Q3c" firstAttribute="height" secondItem="b3Z-hq-Z63" secondAttribute="height" multiplier="0.8" id="Zle-Ai-81z"/>
                                             <constraint firstItem="xWp-J1-FRe" firstAttribute="centerX" secondItem="b3Z-hq-Z63" secondAttribute="centerX" id="eoX-oJ-YNm"/>
                                             <constraint firstItem="sGh-Q4-Q3c" firstAttribute="leading" secondItem="b3Z-hq-Z63" secondAttribute="leading" id="rsa-qH-aeG"/>
                                         </constraints>
