@@ -260,18 +260,6 @@
     return YES;
 }
 
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    [self.filteredHotTagsArray removeAllObjects];
-    for (FAPSHotTagObject *hotTag in self.hotTagsArray) {
-        NSRange rangeValue = [hotTag.content rangeOfString:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitivePredicateOption)];
-        if (rangeValue.length>0) {
-            [self searchWithUserName:searchText];
-            [self.filteredHotTagsArray addObject:hotTag];
-            self.isHotTagSearching = YES;
-            [self.tableView reloadData];
-        }
-    }
-}
 #pragma mark - Tableview Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
