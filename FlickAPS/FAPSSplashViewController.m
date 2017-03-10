@@ -112,6 +112,8 @@ static NetworkStatus networkStatus;
     return isConnected;
 }
 
+#pragma mark - Alertview Method
+
 - (void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex{
 }

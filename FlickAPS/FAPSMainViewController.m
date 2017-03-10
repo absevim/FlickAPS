@@ -75,6 +75,8 @@
      [self getHotTags];
 }
 
+#pragma mark - Getting popular tags method
+
 - (void)getHotTags{
    NSArray *hotTagArrayFromUserDefaults = [self.userDefaults objectForKey:@"hotTagArray"];
    NSString *pageNumberString = [NSString stringWithFormat:@"%li",self.pageNumber];
@@ -156,8 +158,6 @@
             cell.originalPhoto.image = [UIImage imageWithData:photoObject.originalPhoto];
         }
     }
-  
-
     return cell;
 }
 
@@ -245,15 +245,11 @@
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSString *searchString = searchBar.text;
-    //[self searchWithTag:searchString];
-  //
+    [self.filteredPublicPhotoArray removeAllObjects];
     self.isSearching = YES;
     self.pageNumberForSearch = 1;
     [self getSearchResults:@"" withTag:searchString withPageNumber:[NSString stringWithFormat:@"%li",self.pageNumberForSearch]];
-    [self searchWithUserName:searchString];
-    //
-    [self dismissKeyboard];
-  
+    [self dismissKeyboard];  
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
@@ -269,6 +265,7 @@
     for (FAPSHotTagObject *hotTag in self.hotTagsArray) {
         NSRange rangeValue = [hotTag.content rangeOfString:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitivePredicateOption)];
         if (rangeValue.length>0) {
+            [self searchWithUserName:searchText];
             [self.filteredHotTagsArray addObject:hotTag];
             self.isHotTagSearching = YES;
             [self.tableView reloadData];
@@ -322,24 +319,12 @@
     [self dismissKeyboard];
 }
 
-#pragma mark - Search Methods
+#pragma mark - Local Search Methods
 
 - (void)searchContent:(NSString *)content withFilterContent:(NSString *)filterContent withFilteredPhoto:(FAPSPhotoObject *)filteredPhoto{
     NSComparisonResult result = [content compare:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:[content rangeOfString:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)]];
     if (result == NSOrderedSame){
-        [self.filteredPublicPhotoArray addObject:filteredPhoto];
-        [self.collectionView reloadData];
-    }
-}
-
-- (void)searchWithTag:(NSString *)hotTagContent{
-    [self.filteredPublicPhotoArray removeAllObjects];
-    for (FAPSPhotoObject *filteredPhoto in self.publicPhotoArray) {
-        for(FAPSTagsObject *tagObject in filteredPhoto.tagsArray){
-            if (tagObject != nil) {
-                [self searchContent:tagObject.content withFilterContent:hotTagContent withFilteredPhoto:filteredPhoto];
-            }
-        }
+        [self photoForSave:filteredPhoto withArray:self.filteredPublicPhotoArray];
     }
 }
 
@@ -377,6 +362,8 @@
     [fullScreenView autoAlignAxis:ALAxisVertical
                  toSameAxisOfView:selfView];
 }
+
+#pragma mark -
 
 - (void) dismissKeyboard
 {
@@ -451,7 +438,7 @@
                          [photoObject.tagsArray addObject:tagObject];
                       }
                   }
-                  [self savePhoto:photoObject isSearching:self.isSearching];
+                  [self savePhoto:photoObject];
               }
               failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                   NSLog(@"%@",error);
@@ -511,15 +498,14 @@
                                 }];
 }
 
-- (void)savePhoto:(FAPSPhotoObject *)photo isSearching:(BOOL)isSearching{
+#pragma mark - Photo saving methods
+
+- (void)savePhoto:(FAPSPhotoObject *)photo{
     if (self.isSearching){
         [self photoForSave:photo withArray:self.filteredPublicPhotoArray];
     }else{
         [self photoForSave:photo withArray:self.publicPhotoArray];
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView reloadData];
-    });
 }
 
 - (void)photoForSave:(FAPSPhotoObject *)photo withArray:(NSMutableArray *)photoArray{
@@ -531,5 +517,8 @@
     };
     [photoArray removeObject:removePhoto];
     [photoArray addObject:photo];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
 }
 @end
