@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSMutableArray *filteredPublicPhotoArray;
 @property (strong, nonatomic) NSMutableArray *hotTagsArray;
 @property (strong, nonatomic) NSMutableArray *filteredHotTagsArray;
+@property (strong, nonatomic) NSMutableArray *collectionViewArray;
 @property (strong, nonatomic) UIView *fullScreenView;
 @property (strong, nonatomic) UITapGestureRecognizer *tap;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -32,6 +33,7 @@
 @property (strong, nonatomic) NSString *currentPage;
 @property (strong, nonatomic) NSString *totalPage;
 @property (assign, nonatomic) NSInteger pageNumber;
+@property (assign, nonatomic) NSInteger pageNumberForSearch;
 @property (assign, nonatomic) NSInteger totalPageNumber;
 @property (assign, nonatomic) NSInteger totalItem;
 @property NSUserDefaults *userDefaults;
@@ -81,6 +83,7 @@
         FAPSHotTagObject *hotTag = (FAPSHotTagObject *)[NSKeyedUnarchiver unarchiveObjectWithData:hotTagData];
         [self.hotTagsArray addObject:hotTag];
     }
+    [self.userDefaults setObject:nil forKey:@"hotTagArray"];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self getRecentPublicPhotos:pageNumberString];
     });
@@ -92,7 +95,13 @@
     NSInteger count;
     
     if (self.isSearching) {
-        count = self.filteredPublicPhotoArray.count;
+       // count = self.filteredPublicPhotoArray.count;
+        if (self.pageNumberForSearch == self.totalPageNumber
+            || self.totalItem == self.filteredPublicPhotoArray.count) {
+            count = self.filteredPublicPhotoArray.count;
+        }else{
+            count = self.filteredPublicPhotoArray.count+1;
+        }
     } else {
         if (self.pageNumber == self.totalPageNumber
             || self.totalItem == self.publicPhotoArray.count) {
@@ -106,34 +115,60 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FAPSCollectionCell *cell = nil;
-    if (indexPath.row == [self.publicPhotoArray count]) {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
-        cell.username.text = @"";
-        cell.userPhoto.image = nil;
-        cell.originalPhoto.image = [UIImage imageNamed:@"loading.png"];
-    }else{
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"loadingCell" forIndexPath:indexPath];
-        FAPSPhotoObject *photoObject = [[FAPSPhotoObject alloc]init];
-        if (self.isSearching){
+    FAPSPhotoObject *photoObject = [[FAPSPhotoObject alloc]init];
+    NSUInteger arrayCount;
+    if (self.isSearching){
+         arrayCount = self.filteredPublicPhotoArray.count;
+        if (indexPath.row == arrayCount) {
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
+            cell.username.text = @"";
+            cell.userPhoto.image = nil;
+            cell.originalPhoto.image = [UIImage imageNamed:@"loading.png"];
+        }else{
             photoObject = (FAPSPhotoObject *)self.filteredPublicPhotoArray[(NSUInteger)indexPath.row];
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"loadingCell" forIndexPath:indexPath];
+            cell.username.text = photoObject.fullName;
+            cell.tag = indexPath.row;
+            cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
+            cell.userPhoto.clipsToBounds = YES;
+            cell.userPhoto.image = [UIImage imageWithData:photoObject.profilePhotoData];
+            cell.originalPhoto.contentMode = UIViewContentModeScaleAspectFill;
+            cell.originalPhoto.layer.masksToBounds = YES;
+            cell.originalPhoto.image = [UIImage imageWithData:photoObject.originalPhoto];
+        }
+    }else{
+        arrayCount = self.publicPhotoArray.count;
+        if (indexPath.row == arrayCount) {
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"flickrCell" forIndexPath:indexPath];
+            cell.username.text = @"";
+            cell.userPhoto.image = nil;
+            cell.originalPhoto.image = [UIImage imageNamed:@"loading.png"];
         }else{
             photoObject = (FAPSPhotoObject *)self.publicPhotoArray[(NSUInteger)indexPath.row];
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"loadingCell" forIndexPath:indexPath];
+            cell.username.text = photoObject.fullName;
+            cell.tag = indexPath.row;
+            cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
+            cell.userPhoto.clipsToBounds = YES;
+            cell.userPhoto.image = [UIImage imageWithData:photoObject.profilePhotoData];
+            cell.originalPhoto.contentMode = UIViewContentModeScaleAspectFill;
+            cell.originalPhoto.layer.masksToBounds = YES;
+            cell.originalPhoto.image = [UIImage imageWithData:photoObject.originalPhoto];
         }
-        cell.username.text = photoObject.fullName;
-        cell.tag = indexPath.row;
-        cell.userPhoto.layer.cornerRadius = cell.userPhoto.frame.size.width / 2;
-        cell.userPhoto.clipsToBounds = YES;
-        cell.userPhoto.image = [UIImage imageWithData:photoObject.profilePhotoData];
-        cell.userPhoto.contentMode = UIViewContentModeScaleAspectFill;
-        cell.originalPhoto.image = [UIImage imageWithData:photoObject.originalPhoto];
-        self.isSearching = NO;
     }
+  
+
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [self dismissKeyboard];
-    FAPSPhotoObject *photoObject = (FAPSPhotoObject *) self.publicPhotoArray[indexPath.row];
+    FAPSPhotoObject *photoObject = [[FAPSPhotoObject alloc]init];
+    if (self.isSearching){
+        photoObject = (FAPSPhotoObject *)self.filteredPublicPhotoArray[(NSUInteger)indexPath.row];
+    }else{
+        photoObject = (FAPSPhotoObject *)self.publicPhotoArray[(NSUInteger)indexPath.row];
+    }
     [self addFullScreenView:photoObject];
 }
 
@@ -144,8 +179,17 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == [self.publicPhotoArray count] - 1) {
-        [self getRecentPublicPhotos:[NSString stringWithFormat:@"%li",self.pageNumber]];
+    NSInteger pageNumber;
+    if (self.isSearching) {
+        pageNumber = self.pageNumberForSearch;
+        if (indexPath.row == [self.filteredPublicPhotoArray count] - 1) {
+            [self getRecentPublicPhotos:[NSString stringWithFormat:@"%li",pageNumber]];
+        }
+    }else{
+        pageNumber = self.pageNumber;
+        if (indexPath.row == [self.publicPhotoArray count] - 1) {
+            [self getRecentPublicPhotos:[NSString stringWithFormat:@"%li",pageNumber]];
+        }
     }
 }
 
@@ -182,15 +226,14 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     searchBar.text = @"";
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.isSearching = NO;
-        self.isHotTagSearching = NO;
-        [self.filteredPublicPhotoArray removeAllObjects];
-        [self.filteredHotTagsArray removeAllObjects];
-        [self.collectionView reloadData];
-        [self.tableView reloadData];
-        [self dismissKeyboard];
-    });
+    self.isSearching = NO;
+    self.isHotTagSearching = NO;
+    [self.collectionView setContentOffset:CGPointZero animated:YES];
+    [self.filteredPublicPhotoArray removeAllObjects];
+    [self.filteredHotTagsArray removeAllObjects];
+    [self.collectionView reloadData];
+    [self.tableView reloadData];
+    [self dismissKeyboard];
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
@@ -202,10 +245,13 @@
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSString *searchString = searchBar.text;
-    [self searchWithTag:searchString];
-    [self searchWithUserName:searchString];
+    //[self searchWithTag:searchString];
+  //
     self.isSearching = YES;
-    [self.collectionView reloadData];
+    self.pageNumberForSearch = 1;
+    [self getSearchResults:@"" withTag:searchString withPageNumber:[NSString stringWithFormat:@"%li",self.pageNumberForSearch]];
+    [self searchWithUserName:searchString];
+    //
     [self dismissKeyboard];
   
 }
@@ -261,25 +307,28 @@
     return cell;
 }
 
-#pragma mark - Search Methods
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.isSearching = YES;
+    [self.filteredPublicPhotoArray removeAllObjects];
+    self.pageNumberForSearch = 1;
     FAPSHotTagObject *hotTag;
     if (self.isHotTagSearching == YES) {
         hotTag = (FAPSHotTagObject *)self.filteredHotTagsArray[indexPath.row];
     }else{
         hotTag = (FAPSHotTagObject *)self.hotTagsArray[indexPath.row];
     }
-    [self searchWithTag:hotTag.content];
-    self.isSearching = YES;
-    [self.collectionView reloadData];
+    [self getSearchResults:@"" withTag:hotTag.content withPageNumber:[NSString stringWithFormat:@"%li",self.pageNumberForSearch]];
+    self.pageNumberForSearch++;
     [self dismissKeyboard];
 }
+
+#pragma mark - Search Methods
 
 - (void)searchContent:(NSString *)content withFilterContent:(NSString *)filterContent withFilteredPhoto:(FAPSPhotoObject *)filteredPhoto{
     NSComparisonResult result = [content compare:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:[content rangeOfString:filterContent options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)]];
     if (result == NSOrderedSame){
         [self.filteredPublicPhotoArray addObject:filteredPhoto];
+        [self.collectionView reloadData];
     }
 }
 
@@ -340,7 +389,7 @@
 #pragma mark - Loading Flickr Data Methods
 
 - (void)getRecentPublicPhotos:(NSString *)pageNumber{
-    [self.manager GET:[self getFlickrApiUrl:0 withParameter:pageNumber]
+    [self.manager GET:[self getFlickrApiUrl:0 withText:@"" withTag:@"" withPageNumber:pageNumber]
            parameters:nil
              progress:nil
               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -363,7 +412,7 @@
 }
 
 - (void)getPublicPhotoFlickrUser:(FAPSPublicPhoto *)publicPhoto{
-        [self.manager GET:[self getFlickrApiUrl:1 withParameter:publicPhoto.photoOwner]
+        [self.manager GET:[self getFlickrApiUrl:1 withText:publicPhoto.photoOwner withTag:@"" withPageNumber:@""]
                parameters:nil
                  progress:nil
                   success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -387,7 +436,7 @@
 }
 
 - (void)getPhotoTags:(FAPSPhotoObject *)photoObject{
-    [self.manager GET:[self getFlickrApiUrl:3 withParameter:photoObject.publicPhoto.photoId]
+    [self.manager GET:[self getFlickrApiUrl:3 withText:photoObject.publicPhoto.photoId withTag:@"" withPageNumber:@""]
            parameters:nil
              progress:nil
               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -402,7 +451,30 @@
                          [photoObject.tagsArray addObject:tagObject];
                       }
                   }
-                  [self savePhoto:photoObject];
+                  [self savePhoto:photoObject isSearching:self.isSearching];
+              }
+              failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                  NSLog(@"%@",error);
+              }];
+}
+
+- (void)getSearchResults:(NSString *)text withTag:(NSString *)tag withPageNumber:(NSString *)pageNumber{
+    [self.manager GET:[self getFlickrApiUrl:4 withText:text withTag:tag withPageNumber:pageNumber]
+           parameters:nil
+             progress:nil
+              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                  NSDictionary *responseDictionary = [(NSDictionary *)responseObject valueForKey:@"photos"];
+                  NSDictionary *publicPhotoDictionary = [responseDictionary objectForKey:@"photo"];
+                  
+                  self.totalItem = [(NSString *)[responseObject objectForKey:@"total"] integerValue];
+                  self.totalPageNumber = [(NSString *)[responseDictionary objectForKey:@"pages"]integerValue];
+                  NSError *error;
+                  for (NSDictionary *dictionary in publicPhotoDictionary){
+                      FAPSPublicPhoto *publicPhoto =  [MTLJSONAdapter modelOfClass:FAPSPublicPhoto.class
+                                                                fromJSONDictionary:dictionary
+                                                                             error:&error];
+                      [self getPublicPhotoFlickrUser:publicPhoto];
+                  }
               }
               failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                   NSLog(@"%@",error);
@@ -439,19 +511,25 @@
                                 }];
 }
 
-- (void)savePhoto:(FAPSPhotoObject *)photo{
-        FAPSPhotoObject *removePhoto;
-        for (FAPSPhotoObject *tempPhoto in self.publicPhotoArray) {
-            if ([tempPhoto.publicPhoto.photoId isEqualToString:photo.publicPhoto.photoId]) {
-                NSLog(@"bezokko");
-                removePhoto = tempPhoto;
-            }
-        };
-        [self.publicPhotoArray removeObject:removePhoto];
-        [self.publicPhotoArray addObject:photo];
+- (void)savePhoto:(FAPSPhotoObject *)photo isSearching:(BOOL)isSearching{
+    if (self.isSearching){
+        [self photoForSave:photo withArray:self.filteredPublicPhotoArray];
+    }else{
+        [self photoForSave:photo withArray:self.publicPhotoArray];
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView reloadData];
     });
 }
 
+- (void)photoForSave:(FAPSPhotoObject *)photo withArray:(NSMutableArray *)photoArray{
+    FAPSPhotoObject *removePhoto;
+    for (FAPSPhotoObject *tempPhoto in photoArray) {
+        if ([tempPhoto.publicPhoto.photoId isEqualToString:photo.publicPhoto.photoId]) {
+            removePhoto = tempPhoto;
+        }
+    };
+    [photoArray removeObject:removePhoto];
+    [photoArray addObject:photo];
+}
 @end

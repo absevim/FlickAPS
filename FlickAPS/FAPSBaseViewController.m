@@ -30,22 +30,29 @@ NSString *FLICKR_AUTH_TOKEN = @"&auth_token=72157677324780094-d1695453ff72d6e6";
     
 }
 
-- (NSString *)getFlickrApiUrl:(NSInteger)tag withParameter:(NSString *)parameter{
+- (NSString *)getFlickrApiUrl:(NSInteger)tag withText:(NSString *)text withTag:(NSString *)photoTag withPageNumber:(NSString *)pageNumber{
     NSString *apiUrl = @"";
     switch (tag) {
         case 0:
-            /*https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=216973c8a63e3101968818cc48ddfa37&per_page=10&format=json&nojsoncallback=1*/
-            apiUrl = [NSString stringWithFormat:@"%@flickr.photos.getRecent%@&per_page=7&page=%@%@",FLICKR_LINK,FLICKR_API_KEY,parameter,FLICKR_FORMAT];
+            apiUrl = [NSString stringWithFormat:@"%@flickr.photos.getRecent%@&per_page=7&page=%@%@",FLICKR_LINK,FLICKR_API_KEY,pageNumber,FLICKR_FORMAT];
             break;
         case 1:
-            parameter = [parameter stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
-            apiUrl = [NSString stringWithFormat:@"%@flickr.people.getInfo%@&user_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,parameter,FLICKR_FORMAT];
+            text = [text stringByReplacingOccurrencesOfString:@"@" withString:@"%40"];
+            apiUrl = [NSString stringWithFormat:@"%@flickr.people.getInfo%@&user_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,text,FLICKR_FORMAT];
             break;
         case 2:
             apiUrl = [NSString stringWithFormat:@"%@flickr.tags.getHotList%@%@",FLICKR_LINK,FLICKR_API_KEY,FLICKR_FORMAT];
             break;
         case 3:
-            apiUrl = [NSString stringWithFormat:@"%@flickr.tags.getListPhoto%@&photo_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,parameter,FLICKR_FORMAT];
+            apiUrl = [NSString stringWithFormat:@"%@flickr.tags.getListPhoto%@&photo_id=%@%@",FLICKR_LINK,FLICKR_API_KEY,text,FLICKR_FORMAT];
+            break;
+        case 4:
+            if(![text isEqualToString:@""]){
+                apiUrl = [NSString stringWithFormat:@"%@flickr.photos.search%@&text=%@&per_page=7&page=%@%@",FLICKR_LINK,FLICKR_API_KEY,text,pageNumber,FLICKR_FORMAT];
+            }else{
+                apiUrl = [NSString stringWithFormat:@"%@flickr.photos.search%@&tags=%@&per_page=7&page=%@%@",FLICKR_LINK,FLICKR_API_KEY,photoTag,pageNumber,FLICKR_FORMAT];
+            }
+            break;
         default:
             break;
     }

@@ -49,7 +49,7 @@ static NetworkStatus networkStatus;
 #pragma mark - FlickR request methods
 
 - (void)getHotTags{
-    [self.manager GET:[self getFlickrApiUrl:2 withParameter:@""]
+    [self.manager GET:[self getFlickrApiUrl:2 withText:@"" withTag:@"" withPageNumber:@""]
            parameters:nil
              progress:nil
               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

@@ -36,7 +36,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <segue destination="dId-8Q-r0C" kind="show" identifier="SplashToMainViewSegue" id="wXH-O8-Yrp"/>
+                        <segue destination="dId-8Q-r0C" kind="show" identifier="SplashToMainViewSegue" animates="NO" id="wXH-O8-Yrp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
