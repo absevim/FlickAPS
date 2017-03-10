@@ -86,6 +86,7 @@
         [self.hotTagsArray addObject:hotTag];
     }
     [self.userDefaults setObject:nil forKey:@"hotTagArray"];
+    [ProgressHUD show:@"Loading.."];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self getRecentPublicPhotos:pageNumberString];
     });
