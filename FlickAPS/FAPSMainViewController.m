@@ -284,10 +284,6 @@
     return hotTagCount;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"hotTagCell"];
     
@@ -301,6 +297,9 @@
         hotTagObject = (FAPSHotTagObject *)self.hotTagsArray[indexPath.row];
     }
     cell.textLabel.text = hotTagObject.content;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.textLabel.textColor = [UIColor colorWithRed:11./255. green:37./255. blue:255./255. alpha:1.];
+    tableView.separatorColor = [UIColor clearColor];
     return cell;
 }
 
@@ -446,6 +445,7 @@
 }
 
 - (void)getSearchResults:(NSString *)text withTag:(NSString *)tag withPageNumber:(NSString *)pageNumber{
+    [ProgressHUD show:@"Loading.."];
     [self.manager GET:[self getFlickrApiUrl:4 withText:text withTag:tag withPageNumber:pageNumber]
            parameters:nil
              progress:nil
@@ -517,6 +517,7 @@
     };
     [photoArray removeObject:removePhoto];
     [photoArray addObject:photo];
+    [ProgressHUD dismiss];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView reloadData];
     });
